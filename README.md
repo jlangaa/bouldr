@@ -1,2 +1,2 @@
-# PSYC859
-Repo for PSYC 859 Computational Statistics
+# PSYC859 Spring 2020
+Repo for PSYC 859 Computational Statistics Project
