@@ -4,6 +4,15 @@ output: html_notebook
 ---
 
 ```{r}
-source()
+library(ggplot2)
+library(tidyverse)
+source('gen_test_data.R')
+
+dd <- gen.test.data(10, Measure = c("A","B","C"))
+
+dd %>% pivot_wider(names_from = Outcome, values_from =Score) %>%
+  ggplot(aes(x = yes, y = no, color = Measure)) +
+  geom_line() +
+  facet_grid(Diagnosis ~ Informant)
 ```
 
