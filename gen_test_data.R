@@ -13,7 +13,7 @@
 ## Diagnosis: the type of diagnosis
 ## Measure: the form used to measure symptoms
 ## Informant: the person taking the form
-## Dxyn: whether the diagnosis is present
+## Outcome: whether the diagnosis is present
 ## Score: the score on the measure
 gen.test.data <- function(obs.per,
                           Diagnosis = c("Depression","Anxiety"),
@@ -31,10 +31,10 @@ gen.test.data <- function(obs.per,
         separation <- runif(1)
         sd.pooled <- runif(1,1,5)
         
-        g1 <- data.frame(Dxyn = "no",
+        g1 <- data.frame(Outcome = "no",
                          Score = rnorm(obs.per,0,sd.pooled)
         )
-        g2 <- data.frame(Dxyn = "yes",
+        g2 <- data.frame(Outcome = "yes",
                          Score = rnorm(obs.per,separation, sd.pooled))
         scores <- rbind(g1,g2)
         
