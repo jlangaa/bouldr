@@ -30,7 +30,7 @@ DONE: fix the direction warnings from pROC (see below)
 TODO: add print and summary functions to bouldr object
 TODO: allow additional arguments to be passed to roc and roc.test
 TODO: make the test for AUC =/= .5 more robust; bootstrapping?
-
+TODO: make the legend title for rocplot more sensible (the variable may not be a predictor per se)
 
 ```{r}
 # dd$Outcome <- case_when(
