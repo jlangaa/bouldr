@@ -25,8 +25,8 @@ New idea for package name: bouldr
 
 TODO: test this on some real data
 TODO: format as a real R package?
+TODO: add more documentation
 DONE: fix the direction warnings from pROC (see below)
-TODO: format as package
 TODO: add print and summary functions to bouldr object
 
 ```{r}
@@ -42,7 +42,7 @@ r <- bouldr(dat = dd,
 ```
 
 ```{r}
-groc(r)
+rocplot(r)
 ```
 
 ```{r}

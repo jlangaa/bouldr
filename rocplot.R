@@ -46,7 +46,7 @@ tumble_rocs <- function(rocbag) {
   return(bind_rows(ret))
 }
 
-groc <- function(rocbag,plot=TRUE, ...) {
+rocplot <- function(rocbag,plot=TRUE, ...) {
   # Plots the rocs, give output from main
   
   roc.data <- tumble_rocs(rocbag)
