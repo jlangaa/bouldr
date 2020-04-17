@@ -25,12 +25,20 @@ New idea for package name: bouldr
 
 TODO: test this on some real data
 TODO: format as a real R package?
-TODO: fix the direction warnings from pROC (see below)
+DONE: fix the direction warnings from pROC (see below)
 TODO: format as package
 TODO: add print and summary functions to bouldr object
 
 ```{r}
-r <- bouldr(dd, Outcome ~ Score + Informant + Diagnosis, 'delong')
+# dd$Outcome <- case_when(
+#   dd$Outcome == "yes" ~ 1,
+#   dd$Outcome == "no" ~ 0
+# )
+r <- bouldr(dat = dd,
+            f = Outcome ~ Score + Informant + Diagnosis,
+            test = 'delong',
+            levels = c('no','yes'),
+            direction = "<")
 ```
 
 ```{r}
@@ -38,7 +46,11 @@ groc(r)
 ```
 
 ```{r}
-r$tests
+tests(r)
+```
+
+```{r}
+rocs(r)
 ```
 
 

@@ -22,7 +22,15 @@ require(pROC)
 require(RcppAlgos)
 require(broom)
 
-bouldr <- function(dat, f, test = "delong", ...) {
+tests <- function(rocbag) {
+  return(rocbag$tests)
+}
+
+rocs <- function(rocbag) {
+  return(rocbag$rocs)
+}
+
+bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
   
   ### Useful definitions
   ret <- list()
@@ -41,6 +49,10 @@ bouldr <- function(dat, f, test = "delong", ...) {
   out <- allvars[1]
   pred <- allvars[2]
   
+  if (!(all(unique(dat[,out]) %in% levels))) {
+    stop("Levels and outcomes don't match")
+  }
+  
   if (nvars > 2) {
     grouping.vars <- allvars[3:nvars] 
   }
@@ -51,11 +63,16 @@ bouldr <- function(dat, f, test = "delong", ...) {
     ### If there are no additional grouping variables, there is only
     ### one curve. Check that it is significantly different from AUC = .5
     
-    real.roc <- roc_(data = dat, response = out, predictor = pred)
+    real.roc <- roc_(data = dat, response = out, predictor = pred ,
+                     levels = levels,
+                     direction = direction)
+    
     ## Generate a roc with random guessing for predictor (same sample size)
     random.roc <- roc(predictor = dat[,pred],
                       response = sample(unique(dat[,out]),
-                                        length(dat[,out]),replace = TRUE))
+                                        length(dat[,out]),replace = TRUE),
+                      levels = levels,
+                      direction = direction)
     
     roclist <-  real.roc
     testlist <- tidy(roc.test(real.roc, random.roc, method = test))
@@ -69,7 +86,9 @@ bouldr <- function(dat, f, test = "delong", ...) {
     ## Run the ROCs
     for (g in unique(dat[,grp.var])){
       d <- filter(dat, get(grp.var) == g)
-      roclist[[g]] <- roc_(data = d, response = out, predictor = pred)
+      roclist[[g]] <- roc_(data = d, response = out, predictor = pred,
+                           levels = levels,
+                           direction = direction)
     }
     
     ## Pairwise comparisons
@@ -95,7 +114,9 @@ bouldr <- function(dat, f, test = "delong", ...) {
       
       for (g in unique(dat[,grp.var])){
         d <- filter(dat, get(grp.var) == g, get(facet.var) == fv)
-        roc.facet[[g]] <- roc_(data = d, response = out, predictor = pred)
+        roc.facet[[g]] <- roc_(data = d, response = out, predictor = pred,
+                               levels = levels,
+                               direction = direction)
       }
       
       ## Pairwise comparisons
