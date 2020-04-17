@@ -12,6 +12,7 @@
 #   a list with two top-level objects
 #     rocs  the roc objects
 #     tests the output of the desired tests
+#     Class: bouldr
 #     
 #     
 ## Load dependencies
@@ -105,11 +106,11 @@ bouldr <- function(dat, f, test = "delong", ...) {
       
       test.facet <- bind_rows(lapply(test.facet, tidy))
       test.facet[facet.var] <- fv
-      test.facet[paste0(grp.var,"2")] <-comboList[,2]
-      test.facet[paste0(grp.var,"1")] <-comboList[,1]
+      test.facet[paste0(grp.var,"2")] <- comboList[,2]
+      test.facet[paste0(grp.var,"1")] <- comboList[,1]
       
       nc <- ncol(test.facet)
-      test.facet <- test.facet[,c(nc,nc-1,nc-2,3:nc-3)]
+      test.facet <- test.facet[,c(nc,nc-1, nc-2, 3:nc-3)]
       
       roclist[[fv]] <- roc.facet
       testlist[[fv]] <- test.facet
@@ -131,6 +132,8 @@ bouldr <- function(dat, f, test = "delong", ...) {
     nvars == 4 ~ "nested",
     TRUE ~ "invalid"
   )
+  
+  class(ret) <- 'bouldr'
   return(ret)
 }
 

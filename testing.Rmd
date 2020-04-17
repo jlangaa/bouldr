@@ -10,7 +10,7 @@ library(tidyverse)
 library(pROC)
 library(broom)
 source('gen_test_data.R')
-source('main.R')
+source('bouldr.R')
 source('groc.R')
 # source("module 1.R")
 # source("module 2.R")
@@ -26,9 +26,11 @@ New idea for package name: bouldr
 TODO: test this on some real data
 TODO: format as a real R package?
 TODO: fix the direction warnings from pROC (see below)
+TODO: format as package
+TODO: add print and summary functions to bouldr object
 
 ```{r}
-r <- main(dd, Outcome ~ Score + Informant + Diagnosis, 'delong')
+r <- bouldr(dd, Outcome ~ Score + Informant + Diagnosis, 'delong')
 ```
 
 ```{r}
