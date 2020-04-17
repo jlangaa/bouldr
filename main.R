@@ -1,5 +1,19 @@
 # Main method ----------------------------------------------------------------
-
+#
+# Purpose: Run ROCs and pairwise comparisons using desired test
+#
+# Input:
+#   dat   a data frame containing the response and predictor vars
+#   f     a formula of form [response] ~ [predictor] + [group1] + [group2]
+#     note: group1 and group2 are optional; all test will be within group1 only
+#   test  a string indicating which test is desired; default is delong
+#     Options are: "delong", "bootstrap","venkatraman", "sensitivity", "specificity"
+# Output:
+#   a list with two top-level objects
+#     rocs  the roc objects
+#     tests the output of the desired tests
+#     
+#     
 ## Load dependencies
 require(tidyr)
 require(magrittr)
@@ -7,11 +21,12 @@ require(pROC)
 require(RcppAlgos)
 
 main <- function(dat, f, test = "delong", ...) {
+  
   ### Useful definitions
   ret <- list()
-  
   roclist <- list()
   testlist <- list()
+  
   ### Parse formula and extract variable names
   allvars <- all.vars(f)
   
@@ -40,9 +55,6 @@ main <- function(dat, f, test = "delong", ...) {
     
     roclist <-  real.roc
     testlist <- roc.test(real.roc, random.roc, method = test)
-    
-    ## TODO: will probably want to simulate this many times
-    ## or use venkatramen test.
   }
   
   if (nvars == 3) {
@@ -93,8 +105,16 @@ main <- function(dat, f, test = "delong", ...) {
   
   ret[["rocs"]] <- roclist
   ret[["tests"]] <- testlist
+  ret[["type"]] <- case_when(
+    nvars == 2 ~ "single",
+    nvars == 3 ~ "multiple",
+    nvars == 4 ~ "nested",
+    TRUE ~ "invalid"
+  )
   return(ret)
 }
 
-#TODO:
-# use tidy to make ret$tests a data frame instead of a list
+#TODO: allow additional arguments to be passed to roc and roc.test
+#TODO: use tidy to make ret$tests a data frame instead of a list
+#TODO: fix the direction argument for roc
+#TODO: make the test for AUC =/= .5 more robust; bootstrapping?
