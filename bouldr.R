@@ -21,7 +21,7 @@ require(pROC)
 require(RcppAlgos)
 require(broom)
 
-main <- function(dat, f, test = "delong", ...) {
+bouldr <- function(dat, f, test = "delong", ...) {
   
   ### Useful definitions
   ret <- list()
@@ -41,7 +41,7 @@ main <- function(dat, f, test = "delong", ...) {
   pred <- allvars[2]
   
   if (nvars > 2) {
-    grouping.vars <-allvars[3:nvars] 
+    grouping.vars <- allvars[3:nvars] 
   }
   
   ### Do ROC tests
@@ -52,7 +52,9 @@ main <- function(dat, f, test = "delong", ...) {
     
     real.roc <- roc_(data = dat, response = out, predictor = pred)
     ## Generate a roc with random guessing for predictor (same sample size)
-    random.roc <- roc(predictor = dat[,pred], response = sample(unique(dat[,out]),length(dat[,out]),replace=T))
+    random.roc <- roc(predictor = dat[,pred],
+                      response = sample(unique(dat[,out]),
+                                        length(dat[,out]),replace = TRUE))
     
     roclist <-  real.roc
     testlist <- tidy(roc.test(real.roc, random.roc, method = test))
@@ -121,6 +123,8 @@ main <- function(dat, f, test = "delong", ...) {
   
   ret[["rocs"]] <- roclist
   ret[["tests"]] <- testlist
+  ret[["stat"]] <- test
+  ## Indicate how much nesting exists
   ret[["type"]] <- case_when(
     nvars == 2 ~ "single",
     nvars == 3 ~ "multiple",
