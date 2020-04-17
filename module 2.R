@@ -49,6 +49,9 @@
 #
 #---------------------------------------------------------------------------------------------------------
 
+# STEP 0: LOAD DEPENDENCIES
+require(pROC)
+require(RcppAlgos)
   
 #STEP 1: GET UNIQUE LIST OF MEASURES AND INFORMANTS BY OUTCOME
 

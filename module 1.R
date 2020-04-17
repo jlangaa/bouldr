@@ -43,6 +43,8 @@
 # (3) add code to check for and install needed packages?
 #
 #---------------------------------------------------------------------------------------------------------
+#### STEP 0: LOAD DEPENDENCIES
+require(pROC)
 
 #### STEP 1: SUBSET DATA
 createGroupings <- function(datasetName, trueDX, measureName, informant, outcomeVar, predVar ) {
