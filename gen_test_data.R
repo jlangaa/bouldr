@@ -28,7 +28,7 @@ gen.test.data <- function(obs.per,
   for (D in Diagnosis) {
     for (M in Measure) {
       for (I in Informant) {
-        separation <- runif(1)
+        separation <- runif(1, min = 0, max = 8)
         sd.pooled <- runif(1,1,5)
         
         g1 <- data.frame(Outcome = "no",
