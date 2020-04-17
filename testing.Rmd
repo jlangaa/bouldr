@@ -11,7 +11,7 @@ library(pROC)
 library(broom)
 source('gen_test_data.R')
 source('bouldr.R')
-source('groc.R')
+source('rocplot.R')
 # source("module 1.R")
 # source("module 2.R")
 
