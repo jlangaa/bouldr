@@ -22,14 +22,6 @@ require(pROC)
 require(RcppAlgos)
 require(broom)
 
-tests <- function(rocbag) {
-  return(rocbag$tests)
-}
-
-rocs <- function(rocbag) {
-  return(rocbag$rocs)
-}
-
 bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
   
   ### Useful definitions
@@ -158,7 +150,17 @@ bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
   return(ret)
 }
 
-#TODO: allow additional arguments to be passed to roc and roc.test
-#TODO: use tidy to make ret$tests a data frame instead of a list
-#TODO: fix the direction argument for roc
-#TODO: make the test for AUC =/= .5 more robust; bootstrapping?
+tests <- function(rocbag) {
+  # Convenience function to pull out the table of test results
+  return(rocbag$tests)
+}
+
+aucs <- function(rocbag) {
+  # Create a table of AUC for each roc
+  return(NULL)
+}
+
+rocs <- function(rocbag) {
+  # Convenience function to pull out the list of roc objects
+  return(rocbag$rocs)
+}

@@ -52,7 +52,7 @@ rocplot <- function(rocbag,plot=TRUE, ...) {
   roc.data <- tumble_rocs(rocbag)
   
   p <- ggplot(roc.data, aes(x = 1 - sens, y = spec, color = Predictor))+
-    geom_point()+
+    geom_point(size = .5)+
     geom_line()+
     geom_abline(slope = 1, intercept = 0, color = 'grey40')+
     labs(x = "1 - Sensitivity", y = "Specificity") +

@@ -16,8 +16,8 @@ source('rocplot.R')
 # source("module 2.R")
 
 dd <- gen.test.data(10,Diagnosis = c("Depression","Anxiety","ADHD","OCD"),
-                          Measure = c("A","B"),
-                          Informant = c("Self","Cow","Worm","Flea","Parent"))
+                          Measure = c("A","B","C","D","E"),
+                          Informant = c("Self","Teacher","Parent"))
 
 ```
 
@@ -28,6 +28,9 @@ TODO: format as a real R package?
 TODO: add more documentation
 DONE: fix the direction warnings from pROC (see below)
 TODO: add print and summary functions to bouldr object
+TODO: allow additional arguments to be passed to roc and roc.test
+TODO: make the test for AUC =/= .5 more robust; bootstrapping?
+
 
 ```{r}
 # dd$Outcome <- case_when(
@@ -42,7 +45,7 @@ r <- bouldr(dat = dd,
 ```
 
 ```{r}
-rocplot(r)
+rocplot(r) + labs(title = "Demo of rocplot function using test data")
 ```
 
 ```{r}
