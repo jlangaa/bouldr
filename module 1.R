@@ -59,7 +59,7 @@ createGroupings <- function(datasetName, trueDX, measureName, informant, outcome
   
   #produce ROC results
   for(i in 1:length(getGroupings)){
-    getROCData[[i]] <-roc(getGroupings[[i]][,outcomeVar], getGroupings[[i]][,predVar], plot=TRUE)
+    getROCData[[i]] <-roc(getGroupings[[i]][,outcomeVar], getGroupings[[i]][,predVar], plot=FALSE)
   }
   
 #### STEP 3: RETURN RESULTS TO USER 
