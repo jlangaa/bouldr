@@ -1,18 +1,42 @@
 ---
 title: "Testing"
-output: html_notebook
+output: html_document
 ---
 
 ```{r}
+set.seed(2020)
 library(ggplot2)
 library(tidyverse)
+library(pROC)
+library(broom)
 source('gen_test_data.R')
+source('main.R')
+source('groc.R')
+# source("module 1.R")
+# source("module 2.R")
 
-dd <- gen.test.data(10, Measure = c("A","B","C"))
+dd <- gen.test.data(10,Diagnosis = c("Depression","Anxiety","ADHD","OCD"),
+                          Measure = c("A","B"),
+                          Informant = c("Self","Cow","Worm","Flea","Parent"))
 
-dd %>% pivot_wider(names_from = Outcome, values_from =Score) %>%
-  ggplot(aes(x = yes, y = no, color = Measure)) +
-  geom_line() +
-  facet_grid(Diagnosis ~ Informant)
 ```
+
+New idea for package name: bouldr
+
+TODO: test this on some real data
+TODO: format as a real R package?
+TODO: fix the direction warnings from pROC (see below)
+
+```{r}
+r <- main(dd, Outcome ~ Score + Informant + Diagnosis, 'delong')
+```
+
+```{r}
+groc(r)
+```
+
+```{r}
+r$tests
+```
+
 

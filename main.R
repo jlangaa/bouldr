@@ -19,6 +19,7 @@ require(tidyr)
 require(magrittr)
 require(pROC)
 require(RcppAlgos)
+require(broom)
 
 main <- function(dat, f, test = "delong", ...) {
   
@@ -54,7 +55,7 @@ main <- function(dat, f, test = "delong", ...) {
     random.roc <- roc(predictor = dat[,pred], response = sample(unique(dat[,out]),length(dat[,out]),replace=T))
     
     roclist <-  real.roc
-    testlist <- roc.test(real.roc, random.roc, method = test)
+    testlist <- tidy(roc.test(real.roc, random.roc, method = test))
   }
   
   if (nvars == 3) {
@@ -72,7 +73,12 @@ main <- function(dat, f, test = "delong", ...) {
     comboList <- comboGeneral(names(roclist), m=2)
     
     testlist <- apply(comboList, 1, function(x) { roc.test(roclist[[x[1]]], roclist[[x[2]]], method = test) } )
-    names(testlist) <- apply(comboList, 1, function(x) { paste(x[1],x[2],sep="_") })
+    testlist <- bind_rows(lapply(testlist, tidy))
+    testlist[paste0(grp.var,"2")] <-comboList[,2]
+    testlist[paste0(grp.var,"1")] <-comboList[,1]
+    
+    nc <- ncol(testlist)
+    testlist <- testlist[,c(nc,nc-1,2:nc-2)]
   }
   
   if (nvars == 4) {
@@ -93,11 +99,21 @@ main <- function(dat, f, test = "delong", ...) {
       comboList <- comboGeneral(names(roc.facet), m = 2)
       
       test.facet <- apply(comboList, 1, function(x) { roc.test(roc.facet[[x[1]]], roc.facet[[x[2]]], method = test) } )
-      names(test.facet) <- apply(comboList, 1, function(x) { paste(x[1],x[2],sep="_") })
+      # names(test.facet) <- apply(comboList, 1, function(x) { paste(x[1],x[2],sep="_") })
+      
+      test.facet <- bind_rows(lapply(test.facet, tidy))
+      test.facet[facet.var] <- fv
+      test.facet[paste0(grp.var,"2")] <-comboList[,2]
+      test.facet[paste0(grp.var,"1")] <-comboList[,1]
+      
+      nc <- ncol(test.facet)
+      test.facet <- test.facet[,c(nc,nc-1,nc-2,3:nc-3)]
       
       roclist[[fv]] <- roc.facet
       testlist[[fv]] <- test.facet
     }
+    testlist <- bind_rows(testlist)
+    
   }
   if (nvars > 4) {
     stop("Too many grouping variables! Don't get greedy!")
