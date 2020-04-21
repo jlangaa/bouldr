@@ -1,5 +1,5 @@
 ---
-title: "`bouldr`: a ROC Extender Package"
+title: "Demo of `bouldr`: a ROC Extender Package"
 author: "Josh Langfus & Sandra Williams"
 date: "4/21/2020"
 output: 
