@@ -1,82 +1,141 @@
 ---
-title: "Testing"
-output: html_document
+title: "`bouldr`: a ROC Extender Package"
+author: "Josh Langfus & Sandra Williams"
+date: "4/21/2020"
+output: 
+  html_document:
+    df_print: kable
+    highlight: pygments
+    theme: simplex
+    toc: yes
 ---
 
 # Setup
 
-```{r}
+First, we'll source three scripts. These scripts contain the functions we're going to use:
+
+* `gen_gest_data.R` generates test data of the appropriate dimensions and types.
+* `bouldr.R` contains the main roc-hunting logic, built on `pROC`
+* `rocplot.R` contains functions for plotting
+
+```{r, warning=FALSE, message=FALSE}
 set.seed(2020)
 source('gen_test_data.R')
 source('bouldr.R')
 source('rocplot.R')
 # source("module 1.R")
 # source("module 2.R")
+```
 
-dd <- gen.test.data(10,Diagnosis = c("Depression","Anxiety"),
+Next, we'll generage some test data. 
+
+```{r}
+dd <- gen.test.data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
                           Measure = c("A","B"),
-                          Informant = c("Self","Parent"))
+                          Informant = c("Self","Parent", "Teacher"))
 
 ```
 
-
+The chunk above creates a data frame with two hypothetical diagnoses, two forms, and two informants. The `Outcome` and `Score` variables are important for running the ROC. The others are grouping variables.
 
 ```{r}
-# dd$Outcome <- case_when(
-#   dd$Outcome == "yes" ~ 1,
-#   dd$Outcome == "no" ~ 0
-# )
+head(dd)
+```
+
+
+Next, we'll create three `bouldr` objects to demonstrate how the grouping variables are handled. Note that we can run these all on the same data; variables not included in the model formula are simply ingored.
+
+##Creating a single-type bouldr object
+
+```{r}
 single <- bouldr(dat = dd,
             f = Outcome ~ Score,
             test = 'delong',
             levels = c('no','yes'),
             direction = "<")
 
-multiple <- bouldr(dat = dd,
-            f = Outcome ~ Score + Informant,
-            test = 'delong',
-            levels = c('no','yes'),
-            direction = "<")
-
-nested <- bouldr(dat = dd,
-            f = Outcome ~ Score + Informant + Diagnosis,
-            test = 'delong',
-            levels = c('no','yes'),
-            direction = "<")
-
-# attributes(r)
+aucs(single)
 ```
+
+This is the simplest version. The formula `Outcome ~ Score` indicates that we want to run a single ROC analysis using `Outcome` as the dichotomous outcome variable, and `Score` as the continuous predictor. The `aucs` function generates a table showing the AUC of the curve.
+
+The other arguments, `test`, `levels`, and `direction`, specify respectively: the statistical test comparing the ROC curves, the levels of the outcome variable, and the relationship between the levels indicating which is the positive case. These latter two arguments get passed directly to `pROC::roc_`.
+
+The plot below shows the single ROC curve defined by the formula above.
 
 ```{r}
 rocplot(single) + labs(title = "Demo of rocplot function using test data")
 ```
 
-```{r}
-rocplot(multiple) + labs(title = "Demo of rocplot function using test data")
-```
+The plot is defined using `ggplot2`, and can be manipulated after generation, e.g., by adding a theme.
+
+Finally, the `tests` function produces a table with the statistical tests
 
 ```{r}
-rocplot(nested) + labs(title = "Demo of rocplot function using test data")
+tests(single)
 ```
+
+# Including a grouping variable
 
 ```{r}
-tests(nested)
+grouped <- bouldr(dat = dd,
+            f = Outcome ~ Score + Informant,
+            test = 'delong',
+            levels = c('no','yes'),
+            direction = "<")
 ```
+
+In this example, the formule contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
 
 ```{r}
-aucs(single)
+rocplot(grouped) + labs(title = "Demo of rocplot function using test data")
 ```
 
-New idea for package name: bouldr
+The plot shows multiple ROC curves on the same axes.
 
-TODO: test this on some real data
-TODO: format as a real R package?
-TODO: add more documentation
-TODO: add print and summary functions to bouldr object
-TODO: allow additional arguments to be passed to roc and roc.test
-TODO: make the test for AUC =/= .5 more robust; bootstrapping?
-TODO: make the legend title for rocplot more sensible (the variable may not be a predictor per se)
-TODO: add option for smoothed curves
+```{r}
+aucs(grouped)
+```
 
-Questions:
-- Graph labels: sens & spec or TPR vs FPR?
+The AUC table now includes a separate AUC for each grouping variable.
+
+```{r}
+tests(grouped)
+```
+
+The tests table shows the pairwise comparisons between ROCs for each grouping variable.
+
+# Adding a faceting variable
+
+```{r}
+faceted <- bouldr(dat = dd,
+            f = Outcome ~ Score + Informant + Diagnosis,
+            test = 'delong',
+            levels = c('no','yes'),
+            direction = "<")
+```
+
+Finally, we can add an additional **faceting** variable: `Diagnosis`. A variable specified after the grouping variable will create discrete sets of ROC curves that will be plotted separately. Only curves within the same faceting variable will be compared to one another using the specified statistical test; ROCs across facets are not compared. The plot below shows the effect of adding a faceting variable.
+
+
+```{r}
+rocplot(faceted) + labs(title = "Demo of rocplot function using test data")
+```
+
+Note the facet labels at the top of each plot.
+
+```{r}
+aucs(faceted)
+```
+
+The AUC table now includes a `Facet` variable, in addition to the group variable seen before.
+
+# Future directions
+
+*  test this on some real data
+*  format as a real R package?
+*  add more documentation
+*  add print and summary functions to bouldr object
+*  allow additional arguments to be passed to roc and roc.test
+*  make the test for AUC =/= .5 more robust; bootstrapping?
+*  add option for smoothed curves

@@ -142,8 +142,8 @@ bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
   ## Indicate how much nesting exists
   ret[["type"]] <- case_when(
     nvars == 2 ~ "single",
-    nvars == 3 ~ "multiple",
-    nvars == 4 ~ "nested",
+    nvars == 3 ~ "grouped",
+    nvars == 4 ~ "faceted",
     TRUE ~ "invalid"
   )
   
@@ -169,15 +169,15 @@ aucs <- function(rocbag) {
     )
   }
   
-  if (rocbag$type == 'multiple') {
+  if (rocbag$type == 'grouped') {
     aucs <- list()
     rocs <- rocbag$rocs
     
-    for (pred in names(rocs)) {
-      r <- rocs[[pred]]
+    for (group in names(rocs)) {
+      r <- rocs[[group]]
       
-      aucs[[pred]] <- tibble(
-        Group = pred,
+      aucs[[group]] <- tibble(
+        Group = group,
         Comparison = paste(r$levels[1], r$direction, r$levels[2]),
         AUC = unclass(r$auc)[1]
       )
@@ -185,25 +185,25 @@ aucs <- function(rocbag) {
     aucs <- bind_rows(aucs)
   }
   
-  if (rocbag$type == 'nested') {
+  if (rocbag$type == 'faceted') {
     aucs <- list()
     rocs <- rocbag$rocs
     
-    for (group in names(rocs)) {
+    for (facet in names(rocs)) {
       a <- list()
       
-      for (pred in names(rocs[[group]])) {
-        r <- rocs[[group]][[pred]]
+      for (group in names(rocs[[facet]])) {
+        r <- rocs[[facet]][[group]]
         
-        a[[pred]] <- tibble(
-          Facet = group,
-          Group = pred,
+        a[[group]] <- tibble(
+          Facet = facet,
+          Group = group,
           Comparison = paste(r$levels[1], r$direction, r$levels[2]),
           AUC = unclass(r$auc)[1]
         )
         
       }
-    aucs[[group]] <- bind_rows(a)
+    aucs[[facet]] <- bind_rows(a)
     }
     aucs <- bind_rows(aucs)
   }

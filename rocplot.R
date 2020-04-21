@@ -18,26 +18,26 @@ tumble_rocs <- function(rocbag) {
     )
   } 
   
-  if(rocbag$type == "multiple") {
-    for (r in names(rocs)){
-      ret[[r]] <- data.frame(
-        Predictor = r,
-        Group = "",
-        sens = rocs[[r]]$sensitivities,
-        spec = rocs[[r]]$specificities,
+  if(rocbag$type == "grouped") {
+    for (g in names(rocs)){
+      ret[[g]] <- data.frame(
+        Group = g,
+        Facet = "",
+        sens = rocs[[g]]$sensitivities,
+        spec = rocs[[g]]$specificities,
         stringsAsFactors = FALSE
       )
     }
   }
   
-  if(rocbag$type == "nested") {
-    for (g in names(rocs)) {
-      for (r in names(rocs[[g]])) {
-        ret[[paste0(r,g)]] <- data.frame(
-          Predictor = r,
+  if(rocbag$type == "faceted") {
+    for (f in names(rocs)) {
+      for (g in names(rocs[[f]])) {
+        ret[[paste0(g,f)]] <- data.frame(
           Group = g,
-          sens = rocs[[g]][[r]]$sensitivities,
-          spec = rocs[[g]][[r]]$specificities,
+          Facet = f,
+          sens = rocs[[f]][[g]]$sensitivities,
+          spec = rocs[[f]][[g]]$specificities,
           stringsAsFactors = FALSE
         )
       }
@@ -53,15 +53,15 @@ rocplot <- function(rocbag, ...) {
   }
   roc.data <- tumble_rocs(rocbag)
   
-  p <- ggplot(roc.data, aes(x = 1 - sens, y = spec, color = Predictor))+
+  p <- ggplot(roc.data, aes(x = 1 - sens, y = spec, color = Group))+
     geom_point(size = .5)+
     geom_line()+
     geom_abline(slope = 1, intercept = 0, color = 'grey40')+
     labs(x = "1 - Sensitivity", y = "Specificity") +
     theme_classic()
   
-  if (rocbag$type == "nested") {
-    p <- p + facet_wrap(~Group)
+  if (rocbag$type == "faceted") {
+    p <- p + facet_wrap(~Facet)
   }
   
   return(p)
