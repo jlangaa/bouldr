@@ -89,8 +89,8 @@ bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
     
     testlist <- apply(comboList, 1, function(x) { roc.test(roclist[[x[1]]], roclist[[x[2]]], method = test) } )
     testlist <- bind_rows(lapply(testlist, tidy))
-    testlist[paste0(grp.var,"2")] <-comboList[,2]
-    testlist[paste0(grp.var,"1")] <-comboList[,1]
+    testlist[paste0(grp.var,"2")] <- comboList[,2]
+    testlist[paste0(grp.var,"1")] <- comboList[,1]
     
     nc <- ncol(testlist)
     testlist <- testlist[,c(nc,nc-1,2:nc-2)]
@@ -158,7 +158,56 @@ tests <- function(rocbag) {
 
 aucs <- function(rocbag) {
   # Create a table of AUC for each roc
-  return(NULL)
+  aucs <- NULL
+  
+  if (rocbag$type == 'single') {
+    r <- rocbag$rocs
+    
+    aucs <- tibble(
+      Comparison = paste(r$levels[1], r$direction, r$levels[2]),
+      AUC = r$auc
+    )
+  }
+  
+  if (rocbag$type == 'multiple') {
+    aucs <- list()
+    rocs <- rocbag$rocs
+    
+    for (pred in names(rocs)) {
+      r <- rocs[[pred]]
+      
+      aucs[[pred]] <- tibble(
+        Predictor = pred,
+        Comparison = paste(r$levels[1], r$direction, r$levels[2]),
+        AUC = unclass(r$auc)[1]
+      )
+    }
+    aucs <- bind_rows(aucs)
+  }
+  
+  if (rocbag$type == 'nested') {
+    aucs <- list()
+    rocs <- rocbag$rocs
+    
+    for (group in names(rocs)) {
+      a <- list()
+      
+      for (pred in names(rocs[[group]])) {
+        r <- rocs[[group]][[pred]]
+        
+        a[[pred]] <- tibble(
+          Group = group,
+          Predictor = pred,
+          Comparison = paste(r$levels[1], r$direction, r$levels[2]),
+          AUC = unclass(r$auc)[1]
+        )
+        
+      }
+    aucs[[group]] <- bind_rows(a)
+    }
+    aucs <- bind_rows(aucs)
+  }
+  return(aucs)
 }
 
 rocs <- function(rocbag) {
