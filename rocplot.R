@@ -46,9 +46,11 @@ tumble_rocs <- function(rocbag) {
   return(bind_rows(ret))
 }
 
-rocplot <- function(rocbag,plot=TRUE, ...) {
+rocplot <- function(rocbag, ...) {
   # Plots the rocs, give output from main
-  
+  if (class(rocbag) != 'bouldr') {
+    stop("input must be of type 'bouldr'")
+  }
   roc.data <- tumble_rocs(rocbag)
   
   p <- ggplot(roc.data, aes(x = 1 - sens, y = spec, color = Predictor))+
