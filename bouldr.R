@@ -177,7 +177,7 @@ aucs <- function(rocbag) {
       r <- rocs[[pred]]
       
       aucs[[pred]] <- tibble(
-        Predictor = pred,
+        Group = pred,
         Comparison = paste(r$levels[1], r$direction, r$levels[2]),
         AUC = unclass(r$auc)[1]
       )
@@ -196,8 +196,8 @@ aucs <- function(rocbag) {
         r <- rocs[[group]][[pred]]
         
         a[[pred]] <- tibble(
-          Group = group,
-          Predictor = pred,
+          Facet = group,
+          Group = pred,
           Comparison = paste(r$levels[1], r$direction, r$levels[2]),
           AUC = unclass(r$auc)[1]
         )
