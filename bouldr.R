@@ -42,10 +42,6 @@ bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
   out <- allvars[1]
   pred <- allvars[2]
   
-  if (!(all(unique(dat[,out]) %in% levels))) {
-    stop("Levels and outcomes don't match")
-  }
-  
   if (nvars > 2) {
     grouping.vars <- allvars[3:nvars] 
   }

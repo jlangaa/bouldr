@@ -131,9 +131,59 @@ aucs(faceted)
 
 The AUC table now includes a `Facet` variable, in addition to the group variable seen before.
 
+# Real data!
+
+Here's an example using some real data.
+
+## Read in the data
+```{r}
+library(haven)
+library(labelled)
+
+raw.jpp.dat <- read_sav("605. ROC paper for JPP data.sav")
+
+jpp.dat <- raw.jpp.dat %>%
+  select(cgender, tint, intn_r.1, affd_r.1, anymood, crace)
+  
+colnames(jpp.dat) <- var_label(jpp.dat)
+
+jpp.dat <- jpp.dat %>%
+  mutate_at(vars(`Internalizing T Score`:`Affective Disorder Raw Score`),as.numeric) %>%
+  pivot_longer(cols = `Internalizing T Score`:`Affective Disorder Raw Score`,
+               names_to = "Measure", values_to = "Score") %>%
+  rename("Race" = `Youth's Race/Ethnicity`, "Gender" = `Youth's Gender`) %>%
+  mutate(Race = as_factor(Race),
+         Gender = as_factor(Gender),
+         MoodDiagnosis = as_factor(`Any Diagnosis of Mood Disorder`,levels = "values")) %>%
+  select(MoodDiagnosis, Score, Measure, Gender, Race)
+
+jpp.dat <- as.data.frame(jpp.dat)
+```
+
+## bouldr
+
+```{r}
+bd <- bouldr(dat = jpp.dat, f = MoodDiagnosis ~ Score + Measure,
+             test = 'delong',
+             levels = c(0,1),
+              direction = "<")
+```
+
+
+```{r}
+rocplot(bd)
+```
+
+```{r}
+aucs(bd)
+```
+
+```{r}
+tests(bd)
+```
+
 # Future directions
 
-*  test this on some real data
 *  format as a real R package?
 *  add more documentation
 *  add print and summary functions to bouldr object
