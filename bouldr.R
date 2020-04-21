@@ -57,14 +57,18 @@ bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
                      direction = direction)
     
     ## Generate a roc with random guessing for predictor (same sample size)
-    random.roc <- roc(predictor = dat[,pred],
-                      response = sample(unique(dat[,out]),
-                                        length(dat[,out]),replace = TRUE),
-                      levels = levels,
-                      direction = direction)
+    # random.roc <- roc(predictor = dat[,pred],
+    #                   response = sample(unique(dat[,out]),
+    #                                     length(dat[,out]),replace = TRUE),
+    #                   levels = levels,
+    #                   direction = direction)
+    
     
     roclist <-  real.roc
-    testlist <- tidy(roc.test(real.roc, random.roc, method = test))
+    # testlist <- tidy(roc.test(real.roc, random.roc, method = test))
+    
+    # Do a Mann-Whitney U test to see if AUC > .5
+    testlist <- tidy(wilcox.test(dat[,pred] ~ dat[,out], conf.int = TRUE))
   }
   
   if (nvars == 3) {
