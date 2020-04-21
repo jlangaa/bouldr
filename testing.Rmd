@@ -5,32 +5,18 @@ output: html_document
 
 ```{r}
 set.seed(2020)
-library(ggplot2)
-library(tidyverse)
-library(pROC)
-library(broom)
 source('gen_test_data.R')
 source('bouldr.R')
 source('rocplot.R')
 # source("module 1.R")
 # source("module 2.R")
 
-dd <- gen.test.data(10,Diagnosis = c("Depression","Anxiety","ADHD","OCD"),
-                          Measure = c("A","B","C","D","E"),
-                          Informant = c("Self","Teacher","Parent"))
+dd <- gen.test.data(10,Diagnosis = c("Depression","Anxiety"),
+                          Measure = c("A","B"),
+                          Informant = c("Self","Parent"))
 
 ```
 
-New idea for package name: bouldr
-
-TODO: test this on some real data
-TODO: format as a real R package?
-TODO: add more documentation
-DONE: fix the direction warnings from pROC (see below)
-TODO: add print and summary functions to bouldr object
-TODO: allow additional arguments to be passed to roc and roc.test
-TODO: make the test for AUC =/= .5 more robust; bootstrapping?
-TODO: make the legend title for rocplot more sensible (the variable may not be a predictor per se)
 
 ```{r}
 # dd$Outcome <- case_when(
@@ -38,10 +24,12 @@ TODO: make the legend title for rocplot more sensible (the variable may not be a
 #   dd$Outcome == "no" ~ 0
 # )
 r <- bouldr(dat = dd,
-            f = Outcome ~ Score + Informant + Diagnosis,
+            f = Outcome ~ Score,
             test = 'delong',
             levels = c('no','yes'),
             direction = "<")
+
+attributes(r)
 ```
 
 ```{r}
@@ -56,4 +44,16 @@ tests(r)
 rocs(r)
 ```
 
+New idea for package name: bouldr
 
+TODO: test this on some real data
+TODO: format as a real R package?
+TODO: add more documentation
+TODO: add print and summary functions to bouldr object
+TODO: allow additional arguments to be passed to roc and roc.test
+TODO: make the test for AUC =/= .5 more robust; bootstrapping?
+TODO: make the legend title for rocplot more sensible (the variable may not be a predictor per se)
+
+
+Questions:
+- Graph labels: sens & spec or TPR vs FPR?

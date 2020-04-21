@@ -17,6 +17,7 @@
 #     
 ## Load dependencies
 require(tidyr)
+require(dplyr)
 require(magrittr)
 require(pROC)
 require(RcppAlgos)
@@ -84,7 +85,7 @@ bouldr <- function(dat, f, levels, direction, test = "delong", ...) {
     }
     
     ## Pairwise comparisons
-    comboList <- comboGeneral(names(roclist), m=2)
+    comboList <- comboGeneral(names(roclist), m = 2)
     
     testlist <- apply(comboList, 1, function(x) { roc.test(roclist[[x[1]]], roclist[[x[2]]], method = test) } )
     testlist <- bind_rows(lapply(testlist, tidy))
