@@ -8,6 +8,14 @@ output:
     highlight: pygments
     theme: simplex
     toc: yes
+  word_document: 
+    highlight: pygments
+    df_print: kable
+    toc: yes
+  pdf_document:
+    df_print: kable
+    highlight: pygments
+    toc: yes
 ---
 git repo: https://github.com/jlangaa/PSYC859.SP20.git
 
@@ -24,8 +32,10 @@ set.seed(2020)
 source('gen_test_data.R')
 source('bouldr.R')
 source('rocplot.R')
+options(digits = 2)
 # source("module 1.R")
 # source("module 2.R")
+
 ```
 
 Next, we'll generage some test data. 
@@ -46,7 +56,7 @@ head(dd)
 
 Next, we'll create three `bouldr` objects to demonstrate how the grouping variables are handled. Note that we can run these all on the same data; variables not included in the model formula are simply ingored.
 
-##Creating a single-type bouldr object
+# Creating a single-type bouldr object
 
 ```{r}
 single <- bouldr(dat = dd,
@@ -64,7 +74,7 @@ The other arguments, `test`, `levels`, and `direction`, specify respectively: th
 
 The plot below shows the single ROC curve defined by the formula above.
 
-```{r}
+```{r, fig.width = 5, fig.asp = .8}
 rocplot(single) + labs(title = "Demo of rocplot function using test data")
 ```
 
@@ -88,7 +98,7 @@ grouped <- bouldr(dat = dd,
 
 In this example, the formule contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
 
-```{r}
+```{r, fig.width = 5, fig.asp = .8}
 rocplot(grouped) + labs(title = "Demo of rocplot function using test data")
 ```
 
@@ -119,7 +129,7 @@ faceted <- bouldr(dat = dd,
 Finally, we can add an additional **faceting** variable: `Diagnosis`. A variable specified after the grouping variable will create discrete sets of ROC curves that will be plotted separately. Only curves within the same faceting variable will be compared to one another using the specified statistical test; ROCs across facets are not compared. The plot below shows the effect of adding a faceting variable.
 
 
-```{r}
+```{r, fig.width = 8, fig.asp=.38}
 rocplot(faceted) + labs(title = "Demo of rocplot function using test data")
 ```
 
@@ -130,6 +140,12 @@ aucs(faceted)
 ```
 
 The AUC table now includes a `Facet` variable, in addition to the group variable seen before.
+
+```{r}
+tests(faceted)
+```
+
+The additional variable is also included in the tests output table.
 
 # Real data!
 
@@ -160,7 +176,7 @@ jpp.dat <- jpp.dat %>%
 jpp.dat <- as.data.frame(jpp.dat)
 ```
 
-## bouldr
+## Original figure
 
 ```{r}
 bd <- bouldr(dat = jpp.dat, f = MoodDiagnosis ~ Score + Measure,
@@ -170,7 +186,7 @@ bd <- bouldr(dat = jpp.dat, f = MoodDiagnosis ~ Score + Measure,
 ```
 
 
-```{r}
+```{r, fig.width = 7, fig.asp = .6}
 rocplot(bd)
 ```
 
@@ -182,10 +198,34 @@ aucs(bd)
 tests(bd)
 ```
 
+
+## Adding Race as covariate
+
+```{r}
+bd.race <- bouldr(dat = jpp.dat, f = MoodDiagnosis ~ Score + Measure + Race,
+             test = 'delong',
+             levels = c(0,1),
+              direction = "<")
+```
+
+
+```{r, fig.width = 8, fig.asp = .7}
+rocplot(bd.race)
+```
+
+```{r}
+aucs(bd.race)
+```
+
+```{r}
+tests(bd.race)
+```
+
 # Future directions
 
 *  format as a real R package?
 *  add more documentation
+*  error checking & red-teaming
 *  add print and summary functions to bouldr object
 *  allow additional arguments to be passed to roc and roc.test
 *  add option for smoothed curves
