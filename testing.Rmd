@@ -9,6 +9,7 @@ output:
     theme: simplex
     toc: yes
 ---
+git repo: https://github.com/jlangaa/PSYC859.SP20.git
 
 # Setup
 
