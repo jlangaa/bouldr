@@ -17,7 +17,7 @@ output:
     highlight: pygments
     toc: yes
 ---
-git repo: https://github.com/jlangaa/PSYC859.SP20.git
+git repo: https://github.com/jlangaa/bouldr.git
 
 # Setup
 
