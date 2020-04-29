@@ -1,5 +1,5 @@
-# PSYC859 Spring 2020
-Repo for PSYC 859 Computational Statistics Project
+# bouldr README
+Repo for the `bouldr` package, which originally started as a project for PSYC 859 Computational Statistics at the University of North Carolina at Chapel Hill.
 
 ## Requirements
 - `dplyr`
