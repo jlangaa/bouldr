@@ -15,3 +15,6 @@ Repo for PSYC 859 Computational Statistics Project
 - `rocplot.R`: plotting functionality with `ggplot2`
 - `bouldr.R`: the main testing function; includes some helper functions
 
+## Note
+
+`module1.R` and `module2.R` are deprecated early versions. They may have useful code to mine, but will likely be removed later.
