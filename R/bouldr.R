@@ -132,6 +132,7 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
   ret[["rocs"]] <- roclist
   ret[["tests"]] <- testlist
   ret[["stat"]] <- test
+  ret[["formula"]] <- formula
   ## Indicate how much nesting exists
   ret[["type"]] <- dplyr::case_when(
     nvars == 2 ~ "single",
