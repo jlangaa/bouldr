@@ -13,7 +13,9 @@ plot.bouldr <- function(x, ...) {
   }
   roc.data <- tumble_rocs(x)
 
-  p <- ggplot2::ggplot(roc.data, ggplot2::aes_string(x = 1 - "sens", y = "spec", color = "Group"))+
+  roc.data$FPR <- with(roc.data, 1 - sens)
+
+  p <- ggplot2::ggplot(roc.data, ggplot2::aes_string(x = "FPR", y = "spec", color = "Group"))+
     ggplot2::geom_point(size = .5)+
     ggplot2::geom_line()+
     ggplot2::geom_abline(slope = 1, intercept = 0, color = 'grey40')+
