@@ -7,4 +7,5 @@
 #' @export
 summary.bouldr <- function(object, ...) {
   print.bouldr(object)
+
 }

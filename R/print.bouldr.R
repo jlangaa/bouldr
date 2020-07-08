@@ -36,4 +36,10 @@ print.bouldr <- function(x, tests = FALSE, ...) {
 
     print(tests(x))
   }
+  cat("AUC table\n")
+
+  print(aucs(x))
+
+  cat("To show tests, add 'tests = TRUE' to print command")
+
 }
