@@ -31,3 +31,9 @@ Informant: the person taking the form
 Outcome: whether the diagnosis is present
 Score: the score on the measure
 }
+\examples{
+generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
+Measure = c("A","B"),
+Informant = c("Self","Parent", "Teacher"))
+
+}

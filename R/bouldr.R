@@ -15,6 +15,15 @@
 #'
 #' @return An object of class 'bouldr' containing ROCs and tests.
 #' @export
+#' @examples
+#' dd <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
+#'         Measure = c("A","B"), Informant = c("Self","Parent", "Teacher"))
+#' single <- bouldr(dat = dd,
+#' f = Outcome ~ Score,
+#' test = 'delong',
+#' levels = c('no','yes'),
+#' direction = "<")
+#' aucs(single)
 
 bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
 

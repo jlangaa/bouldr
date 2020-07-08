@@ -4,7 +4,6 @@
 #'
 #' @return A data frame with the AUCs
 #' @export
-#'
 aucs <- function(rocbag) {
   # Create a table of AUC for each roc
   aucs <- NULL

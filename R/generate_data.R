@@ -14,6 +14,11 @@
 #'
 #' @return A data frame that can be used in bouldr
 #' @export
+#' @examples
+#' generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
+#' Measure = c("A","B"),
+#' Informant = c("Self","Parent", "Teacher"))
+#'
 generate_data <- function(obs.per,
                           Diagnosis = c("Depression","Anxiety"),
                           Measure = c("A","B","C","D","E"),

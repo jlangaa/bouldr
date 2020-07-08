@@ -29,3 +29,13 @@ and the direction of the cases (i.e., which level is the positive case).
 Providing an argument for test will change the test used to compare
 ROC curves.
 }
+\examples{
+dd <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
+        Measure = c("A","B"), Informant = c("Self","Parent", "Teacher"))
+single <- bouldr(dat = dd,
+f = Outcome ~ Score,
+test = 'delong',
+levels = c('no','yes'),
+direction = "<")
+aucs(single)
+}
