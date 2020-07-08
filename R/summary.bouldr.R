@@ -1,10 +1,10 @@
 
 #' Summarises the bouldr output (by passing to print)
 #'
-#' @param x A bouldr object
-#'
+#' @param object A bouldr object
+#' @param ... additional arguments
 #' @return NULL
 #' @export
-summary.bouldr <- function(x) {
-  print.bouldr(x)
+summary.bouldr <- function(object, ...) {
+  print.bouldr(object)
 }
