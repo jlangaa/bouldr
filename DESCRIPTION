@@ -8,7 +8,8 @@ Authors@R:
            email = "me@josh-langfus.com",
            comment = c(ORCID = "0000-0003-1096-966X"))
 Description: Extends the pROC package to do ROC analyses and graph them.
-Import:
+Depends: R (>= 3.5.0)
+Imports:
   pROC,
   tidyr,
   dplyr,

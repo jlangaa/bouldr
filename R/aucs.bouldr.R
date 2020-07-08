@@ -25,7 +25,7 @@ aucs <- function(rocbag) {
     for (group in names(rocs)) {
       r <- rocs[[group]]
 
-      aucs[[group]] <- tibble(
+      aucs[[group]] <- tidyr::tibble(
         Group = group,
         Comparison = paste(r$levels[1], r$direction, r$levels[2]),
         AUC = unclass(r$auc)[1]
@@ -44,7 +44,7 @@ aucs <- function(rocbag) {
       for (group in names(rocs[[facet]])) {
         r <- rocs[[facet]][[group]]
 
-        a[[group]] <- tibble(
+        a[[group]] <- tidyr::tibble(
           Facet = facet,
           Group = group,
           Comparison = paste(r$levels[1], r$direction, r$levels[2]),

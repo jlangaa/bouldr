@@ -80,8 +80,8 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
     ## Pairwise comparisons
     comboList <- RcppAlgos::comboGeneral(names(roclist), m = 2)
 
-    testlist <- apply(comboList, 1, function(x) { roc.test(roclist[[x[1]]], roclist[[x[2]]], method = test) } )
-    testlist <- dplyr::bind_rows(lapply(testlist, tidy))
+    testlist <- apply(comboList, 1, function(x) { pROC::roc.test(roclist[[x[1]]], roclist[[x[2]]], method = test) } )
+    testlist <- dplyr::bind_rows(lapply(testlist, broom::tidy))
     testlist[paste0(grp.var,"2")] <- comboList[,2]
     testlist[paste0(grp.var,"1")] <- comboList[,1]
 
