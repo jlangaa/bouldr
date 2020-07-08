@@ -1,15 +1,14 @@
 Package: bouldr
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: A Psychology-Focused Tool for ROC Analyses
+Version: 0.1
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Joshua",
+           family = "Langfus",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "me@josh-langfus.com",
+           comment = c(ORCID = "0000-0003-1096-966X"))
+Description: Extends the pROC package to do ROC analyses and graph them.
+License: `use_mit_license()`
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
