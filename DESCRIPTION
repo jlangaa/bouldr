@@ -1,12 +1,18 @@
 Package: bouldr
 Title: A Psychology-Focused Tool for ROC Analyses
 Version: 0.1
-Authors@R: 
+Authors@R: c(
     person(given = "Joshua",
            family = "Langfus",
            role = c("aut", "cre"),
            email = "me@josh-langfus.com",
-           comment = c(ORCID = "0000-0003-1096-966X"))
+           comment = c(ORCID = "0000-0003-1096-966X")),
+    person(given = "Sandra",
+           family = "Williams",
+           role = "aut")
+           )
+Author: Joshua Langfus [aut, cre]
+Maintainer: Joshua Langfus <me@josh-langfus.com>
 Description: Extends the pROC package to do ROC analyses and graph them.
 Depends: R (>= 3.5.0)
 Imports:
