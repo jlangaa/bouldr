@@ -55,10 +55,11 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
     ### one curve. Check that it is significantly different from AUC = .5
     if(length(unique(data[,out] == 1))) {
       warning("Skipping ROC due to no case differentiation in response group", call. = FALSE)
-    }
+    } else {
     real.roc <- pROC::roc_(data = data, response = out, predictor = pred ,
                            levels = levels,
                            direction = direction)
+    }
 
 
     ## Generate a roc with random guessing for predictor (same sample size)
