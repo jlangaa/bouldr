@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Demo of bouldr</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Demo of <code>bouldr</code></h1>
+
+
+
+<p>git repo: <a href="https://github.com/jlangaa/bouldr.git" class="uri">https://github.com/jlangaa/bouldr.git</a></p>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<p>First, we’ll set the seed and some other useful options.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">set.seed</span>(<span class="dv">2020</span>)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(bouldr)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">options</span>(<span class="dt">digits =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p>Next, we’ll generage some test data.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">dd &lt;-<span class="st"> </span><span class="kw">generate_data</span>(<span class="dv">10</span>,<span class="dt">Diagnosis =</span> <span class="kw">c</span>(<span class="st">&quot;Depression&quot;</span>,<span class="st">&quot;Anxiety&quot;</span>,<span class="st">&quot;ADHD&quot;</span>),</a>
+<a class="sourceLine" id="cb2-2" title="2">                          <span class="dt">Measure =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>),</a>
+<a class="sourceLine" id="cb2-3" title="3">                          <span class="dt">Informant =</span> <span class="kw">c</span>(<span class="st">&quot;Self&quot;</span>,<span class="st">&quot;Parent&quot;</span>, <span class="st">&quot;Teacher&quot;</span>))</a></code></pre></div>
+<p>The chunk above creates a data frame with two hypothetical diagnoses, two forms, and two informants. The <code>Outcome</code> and <code>Score</code> variables are important for running the ROC. The others are grouping variables.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">head</span>(dd)</a></code></pre></div>
+<pre><code>##   ID  Diagnosis Measure Informant Outcome Score
+## 1  1 Depression       A      Self      no  0.78
+## 2  2 Depression       A      Self      no -2.83
+## 3  3 Depression       A      Self      no -2.91
+## 4  4 Depression       A      Self      no -7.21
+## 5  5 Depression       A      Self      no  1.86
+## 6  6 Depression       A      Self      no  2.42</code></pre>
+<p>Next, we’ll create three <code>bouldr</code> objects to demonstrate how the grouping variables are handled. Note that we can run these all on the same data; variables not included in the model formula are simply ingored.</p>
+</div>
+<div id="creating-a-single-type-bouldr-object" class="section level1">
+<h1>Creating a single-type bouldr object</h1>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">single &lt;-<span class="st"> </span><span class="kw">bouldr</span>(<span class="dt">dat =</span> dd,</a>
+<a class="sourceLine" id="cb5-2" title="2">            <span class="dt">f =</span> Outcome <span class="op">~</span><span class="st"> </span>Score,</a>
+<a class="sourceLine" id="cb5-3" title="3">            <span class="dt">test =</span> <span class="st">&#39;delong&#39;</span>,</a>
+<a class="sourceLine" id="cb5-4" title="4">            <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&#39;no&#39;</span>,<span class="st">&#39;yes&#39;</span>),</a>
+<a class="sourceLine" id="cb5-5" title="5">            <span class="dt">direction =</span> <span class="st">&quot;&lt;&quot;</span>)</a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"><span class="kw">aucs</span>(single)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 2
+##   Comparison AUC  
+##   &lt;chr&gt;      &lt;auc&gt;
+## 1 no &lt; yes   0.78</code></pre>
+<p>This is the simplest version. The formula <code>Outcome ~ Score</code> indicates that we want to run a single ROC analysis using <code>Outcome</code> as the dichotomous outcome variable, and <code>Score</code> as the continuous predictor. The <code>aucs</code> function generates a table showing the AUC of the curve.</p>
+<p>The other arguments, <code>test</code>, <code>levels</code>, and <code>direction</code>, specify respectively: the statistical test comparing the ROC curves, the levels of the outcome variable, and the relationship between the levels indicating which is the positive case. These latter two arguments get passed directly to <code>pROC::roc_</code>.</p>
+<p>The plot below shows the single ROC curve defined by the formula above.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">plot</span>(single) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Demo of plot function using test data&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The plot is defined using <code>ggplot2</code>, and can be manipulated after generation, e.g., by adding a theme.</p>
+<p>Finally, the <code>tests</code> function produces a table with the statistical tests</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">tests</span>(single)</a></code></pre></div>
+<pre><code>## # A tibble: 1 x 7
+##   estimate statistic  p.value conf.low conf.high method              alternative
+##      &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt; &lt;chr&gt;               &lt;chr&gt;      
+## 1    -4.16      6996 1.14e-20    -4.96     -3.40 Wilcoxon rank sum ~ two.sided</code></pre>
+</div>
+<div id="including-a-grouping-variable" class="section level1">
+<h1>Including a grouping variable</h1>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1">grouped &lt;-<span class="st"> </span><span class="kw">bouldr</span>(<span class="dt">dat =</span> dd,</a>
+<a class="sourceLine" id="cb10-2" title="2">            <span class="dt">f =</span> Outcome <span class="op">~</span><span class="st"> </span>Score <span class="op">+</span><span class="st"> </span>Informant,</a>
+<a class="sourceLine" id="cb10-3" title="3">            <span class="dt">test =</span> <span class="st">&#39;delong&#39;</span>,</a>
+<a class="sourceLine" id="cb10-4" title="4">            <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&#39;no&#39;</span>,<span class="st">&#39;yes&#39;</span>),</a>
+<a class="sourceLine" id="cb10-5" title="5">            <span class="dt">direction =</span> <span class="st">&quot;&lt;&quot;</span>)</a></code></pre></div>
+<p>In this example, the formule contains the <strong>grouping</strong> variable, <code>Informant</code>, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">plot</span>(grouped) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Demo of plot function using test data&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>The plot shows multiple ROC curves on the same axes.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">aucs</span>(grouped)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 3
+##   Group   Comparison   AUC
+##   &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Self    no &lt; yes   0.866
+## 2 Parent  no &lt; yes   0.777
+## 3 Teacher no &lt; yes   0.700</code></pre>
+<p>The AUC table now includes a separate AUC for each grouping variable.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw">tests</span>(grouped)</a></code></pre></div>
+<pre><code>## # A tibble: 3 x 8
+##   Informant1 Informant2 estimate1 estimate2 statistic p.value method alternative
+##   &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;      
+## 1 Self       Parent         0.866     0.777      1.52 0.128   DeLon~ two.sided  
+## 2 Self       Teacher        0.866     0.700      2.84 0.00448 DeLon~ two.sided  
+## 3 Parent     Teacher        0.777     0.700      1.18 0.238   DeLon~ two.sided</code></pre>
+<p>The tests table shows the pairwise comparisons between ROCs for each grouping variable.</p>
+</div>
+<div id="adding-a-faceting-variable" class="section level1">
+<h1>Adding a faceting variable</h1>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1">faceted &lt;-<span class="st"> </span><span class="kw">bouldr</span>(<span class="dt">dat =</span> dd,</a>
+<a class="sourceLine" id="cb16-2" title="2">            <span class="dt">f =</span> Outcome <span class="op">~</span><span class="st"> </span>Score <span class="op">+</span><span class="st"> </span>Informant <span class="op">+</span><span class="st"> </span>Diagnosis,</a>
+<a class="sourceLine" id="cb16-3" title="3">            <span class="dt">test =</span> <span class="st">&#39;delong&#39;</span>,</a>
+<a class="sourceLine" id="cb16-4" title="4">            <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&#39;no&#39;</span>,<span class="st">&#39;yes&#39;</span>),</a>
+<a class="sourceLine" id="cb16-5" title="5">            <span class="dt">direction =</span> <span class="st">&quot;&lt;&quot;</span>)</a></code></pre></div>
+<p>Finally, we can add an additional <strong>faceting</strong> variable: <code>Diagnosis</code>. A variable specified after the grouping variable will create discrete sets of ROC curves that will be plotted separately. Only curves within the same faceting variable will be compared to one another using the specified statistical test; ROCs across facets are not compared. The plot below shows the effect of adding a faceting variable.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">plot</span>(faceted) <span class="op">+</span><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Demo of plot function using test data&quot;</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAwAAAAEjCAMAAACy+JYNAAABsFBMVEUAAAAAAEgAAHQASEgASHQASJwAdJwAdL8AujgZGVEZGXsZUaAZe8EaGhozMzNIAABIAEhIAHRISABISHRISJxIdHRIdJxIdL9InL9InN9NTU1NTXJNTZJNcrBNksxRGRlRGVFRGXtRUXtRUaBRe8FRoOFhnP9mZmZyTU1yTXJyTZJycrBysOV0AAB0AEh0AHR0SAB0SHR0dAB0nJx0nL90nN90v5x0v790v990v/97GRl7GVF7GXt7URl7UaB7exl7e1F7e3t7wf+STU2STXKSTZKSzP+cSACcdACcdEicdHScnEicnHScnL+cv5ycv9+c39+c3/+gURmgUVGgUXugexmgoFGgwaCg4cGg4f+wck2wcnKwcpKwzLCw5f+/dAC/dEi/nEi/v5y/v9+/35y/39+/3/+//7+//9+////BexnBe1HB/8HB/+HB///Mkk3M///fnEjfnHTfv3Tfv5zf35zf37/f39/f/7/f/9/f///hoFHh4aDh/+Hh///lsHLl///4dm3/v3T/wXv/zJL/35z/37//4aD/5bD//7///8H//8z//9///+H//+X////U1BdkAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAeV0lEQVR4nO2djX8cxXnHT8KuDMGWHRJSyaS0oUjQStRt+mIRN22gldI3qEnfMMRq0oQi2iIupG2wWxyffWAZof2XM287+747M/vMzDOz8/t87Ltbzeztb+753j47c7Mzy5KSJqyZ7wNISvKpBEDSpJUASJq0EgBJk1YCIGnSSgAkTVoJgKRJKwGQNGmZAzCfMT3znln1f53N1u5UtpwenC9vWP7+UXfZmmjZWvVB9ZcvvXvf9tODNZVaSWg1GoDZbM+k9oJUXKtuqkXkfPWou2z9WFahASjevXd7DYCuWkloNQIA9mGf/mx95aZB7UWTmx4AhhiDD7wEwEQ0FgAanhvk/8+u8Wxoub7x8frKH2WL9dmzd8T2c0WWlL88JF/qvP7J7gYpe+5mDoAocXpASmywOqzs++yPNN5IsR9/dUbeguhjVpOXrVSvlMryfbNwPf2r2WzlOt9U29fKH4p4zt89d5VXKh0Vf/Ofsgoff3VGd5L/VbxMCkHjAWCxtVynyRA5FyzXv06erryxztOW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" /><!-- --></p>
+<p>Note the facet labels at the top of each plot.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" title="1"><span class="kw">aucs</span>(faceted)</a></code></pre></div>
+<pre><code>## # A tibble: 9 x 4
+##   Facet      Group   Comparison   AUC
+##   &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt;
+## 1 Depression Self    no &lt; yes   0.89 
+## 2 Depression Parent  no &lt; yes   0.682
+## 3 Depression Teacher no &lt; yes   0.822
+## 4 Anxiety    Self    no &lt; yes   0.862
+## 5 Anxiety    Parent  no &lt; yes   0.908
+## 6 Anxiety    Teacher no &lt; yes   0.665
+## 7 ADHD       Self    no &lt; yes   0.84 
+## 8 ADHD       Parent  no &lt; yes   0.76 
+## 9 ADHD       Teacher no &lt; yes   0.695</code></pre>
+<p>The AUC table now includes a <code>Facet</code> variable, in addition to the group variable seen before.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" title="1"><span class="kw">tests</span>(faceted)</a></code></pre></div>
+<pre><code>## # A tibble: 9 x 9
+##   Informant1 Informant2 Diagnosis estimate1 estimate2 statistic p.value method
+##   &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; 
+## 1 Self       Parent     Depressi~     0.89      0.682     1.85  0.0645  DeLon~
+## 2 Self       Teacher    Depressi~     0.89      0.822     0.701 0.484   DeLon~
+## 3 Parent     Teacher    Depressi~     0.682     0.822    -1.42  0.156   DeLon~
+## 4 Self       Parent     Anxiety       0.862     0.908    -0.668 0.504   DeLon~
+## 5 Self       Teacher    Anxiety       0.862     0.665     2.13  0.0334  DeLon~
+## 6 Parent     Teacher    Anxiety       0.908     0.665     2.63  0.00861 DeLon~
+## 7 Self       Parent     ADHD          0.84      0.76      0.650 0.515   DeLon~
+## 8 Self       Teacher    ADHD          0.84      0.695     1.34  0.180   DeLon~
+## 9 Parent     Teacher    ADHD          0.76      0.695     0.530 0.596   DeLon~
+## # ... with 1 more variable: alternative &lt;chr&gt;</code></pre>
+<p>The additional variable is also included in the tests output table.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
