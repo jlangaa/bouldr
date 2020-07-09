@@ -53,10 +53,13 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
   if (nvars == 2) {
     ### If there are no additional grouping variables, there is only
     ### one curve. Check that it is significantly different from AUC = .5
-
+    if(length(unique(data[,out] == 1))) {
+      warning("Skipping ROC due to no case differentiation in response group", call. = FALSE)
+    }
     real.roc <- pROC::roc_(data = data, response = out, predictor = pred ,
-                     levels = levels,
-                     direction = direction)
+                           levels = levels,
+                           direction = direction)
+
 
     ## Generate a roc with random guessing for predictor (same sample size)
     # random.roc <- roc(predictor = data[,pred],
@@ -81,11 +84,14 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
     ## Run the ROCs
     for (g in unique(data[,grp.var])){
       d <- dplyr::filter(data, get(grp.var) == g)
-      roclist[[g]] <- pROC::roc_(data = d, response = out, predictor = pred,
-                           levels = levels,
-                           direction = direction)
+      if(length(unique(d[,out])) == 1) {
+        warning("Skipping ROC due to no case differentiation in group: ", g, call. = FALSE)
+      } else {
+        roclist[[g]] <- pROC::roc_(data = d, response = out, predictor = pred,
+                                   levels = levels,
+                                   direction = direction)
+      }
     }
-
     ## Pairwise comparisons
     comboList <- RcppAlgos::comboGeneral(names(roclist), m = 2)
 
@@ -109,10 +115,18 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
 
       for (g in unique(data[,grp.var])){
         d <- dplyr::filter(data, get(grp.var) == g, get(facet.var) == fv)
-        roc.facet[[g]] <- pROC::roc_(data = d, response = out, predictor = pred,
-                               levels = levels,
-                               direction = direction)
+        if(length(unique(d[,out])) == 1) {
+          warning("Skipping ROC due to no case differentiation in facet: ", fv,
+                  ", group: ",g, call. = FALSE)
+        } else {
+          roc.facet[[g]] <- pROC::roc_(data = d, response = out, predictor = pred,
+                                       levels = levels,
+                                       direction = direction)
+        }
       }
+
+      #remove NA rocs (due to case uniformity)
+      roc.facet <- roc.facet[!is.na(roc.facet)]
 
       ## Pairwise comparisons
       comboList <- RcppAlgos::comboGeneral(names(roc.facet), m = 2)
