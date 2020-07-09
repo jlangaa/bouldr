@@ -13,11 +13,25 @@ Authors@R: c(
            )
 Author: Joshua Langfus [aut, cre]
 Maintainer: Joshua Langfus <me@josh-langfus.com>
+<<<<<<< HEAD
 Description: Extends the pROC package to do multiple nested ROC analyses and graph them nicely with ggplot2.
 Depends: R (>= 3.5.0)
 Imports: pROC, tidyr, dplyr, magrittr, RcppAlgos, broom, ggplot2, stats
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
+=======
+Description: Extends the pROC package to do ROC analyses and graph them.
+Depends: R (>= 3.5.0)
+Imports:
+  pROC,
+  tidyr,
+  dplyr,
+  magrittr,
+  RcppAlgos,
+  broom,
+  ggplot2,
+  stats
+>>>>>>> dev
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
