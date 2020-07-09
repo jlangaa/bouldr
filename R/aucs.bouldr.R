@@ -1,10 +1,7 @@
 #' Build a table of AUCs for each ROC
 #'
-<<<<<<< HEAD
 #' @param rocbag A `bouldr`-class object
-=======
-#' @param rocbag A bouldr-class object
->>>>>>> dev
+
 #'
 #' @return A data frame with the AUCs
 #' @export

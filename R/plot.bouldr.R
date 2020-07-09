@@ -1,11 +1,7 @@
 #' Plot the ROC objects in a pretty way, with faceting when appropriate
 #'
 #'
-<<<<<<< HEAD
 #' @param x An object of class `bouldr`
-=======
-#' @param x An object of class bouldr
->>>>>>> dev
 #' @param ... Additional arguments
 #'
 #' @return A ggplot2 object with relevant plot(s)

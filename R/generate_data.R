@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #' Title: Generate a test data frame for use with `bouldr`
 #'
 #' Description: Generates a data frame of the correct format to be used
@@ -17,36 +16,14 @@
 #' chosen here to reflect common use-cases.
 #'
 #' @param obs.per Number of observations per cell. Total _N_ would be this number times the number of options in the other three variables.
-=======
-#' Generate a test data frame with 6 nested variables
-#'
-#' ID: participant ID
-#' Diagnosis: the type of diagnosis
-#' Measure: the form used to measure symptoms
-#' Informant: the person taking the form
-#' Outcome: whether the diagnosis is present
-#' Score: the score on the measure
-#'
-#' @param obs.per Number of observations per cell
->>>>>>> dev
 #' @param Diagnosis A character vector of names for this grouping variable
 #' @param Measure  A character vector of names for this grouping variable
 #' @param Informant A character vector of names for this grouping variable
 #'
-<<<<<<< HEAD
 #' @return A data frame that can be used in `bouldr`
 #' @export
 #' @examples
 #' generate_data(10)
-=======
-#' @return A data frame that can be used in bouldr
-#' @export
-#' @examples
-#' generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
-#' Measure = c("A","B"),
-#' Informant = c("Self","Parent", "Teacher"))
->>>>>>> dev
-#'
 generate_data <- function(obs.per,
                           Diagnosis = c("Depression","Anxiety"),
                           Measure = c("A","B","C","D","E"),

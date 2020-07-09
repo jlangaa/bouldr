@@ -7,12 +7,11 @@
 bouldr(formula, data, levels, direction, test = "delong", ...)
 }
 \arguments{
-\item{formula}{A specification of the variables of form: response ~ predictor + (grouping_var) + (faceting_var).
-Arguments in parentheses are optional.}
+\item{formula}{A specification of the variables of form: response ~ predictor + (group1) + (group2)}
 
 \item{data}{A data frame containing the response and predictor vars}
 
-\item{levels}{The levels of the response variable as a character vector (e.g., c("yes","no"))}
+\item{levels}{The levels of the response variable as a character vector (e.g., C("yes","no"))}
 
 \item{direction}{Either "<" or ">", indicating which level is the positive case}
 
@@ -21,7 +20,7 @@ Arguments in parentheses are optional.}
 \item{...}{Additional arguments}
 }
 \value{
-An object of class \code{bouldr}' containing ROCs and tests.
+An object of class 'bouldr' containing ROCs and tests.
 }
 \description{
 This function takes a data frame and a formula and runs nested ROCs
@@ -31,10 +30,10 @@ Providing an argument for test will change the test used to compare
 ROC curves.
 }
 \examples{
-testing <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
+dd <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
         Measure = c("A","B"), Informant = c("Self","Parent", "Teacher"))
-single <- bouldr(data = testing,
-formula = Outcome ~ Score,
+single <- bouldr(dat = dd,
+f = Outcome ~ Score,
 test = 'delong',
 levels = c('no','yes'),
 direction = "<")

@@ -43,5 +43,4 @@ chosen here to reflect common use-cases.
 }
 \examples{
 generate_data(10)
-
 }
