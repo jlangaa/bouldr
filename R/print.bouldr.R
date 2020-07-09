@@ -11,7 +11,7 @@
 #' @export
 print.bouldr <- function(x, tests = FALSE, ...) {
   lhs <- x$formula[[2]]
-  rhs <- labels(terms(x$formula))
+  rhs <- labels(stats::terms(x$formula))
 
   cat("Outcome var:\t", lhs, "\n")
   cat("Predictor var:\t",rhs[1], "\n")
