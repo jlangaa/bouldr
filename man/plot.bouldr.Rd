@@ -7,7 +7,7 @@
 \method{plot}{bouldr}(x, ...)
 }
 \arguments{
-\item{x}{An object of class bouldr}
+\item{x}{An object of class \code{bouldr}}
 
 \item{...}{Additional arguments}
 }

@@ -7,19 +7,20 @@
 #' ROC curves.
 #'
 #' @param data A data frame containing the response and predictor vars
-#' @param formula A specification of the variables of form: response ~ predictor + (group1) + (group2)
-#' @param levels The levels of the response variable as a character vector (e.g., C("yes","no"))
+#' @param formula A specification of the variables of form: response ~ predictor + (grouping_var) + (faceting_var).
+#'  Arguments in parentheses are optional.
+#' @param levels The levels of the response variable as a character vector (e.g., c("yes","no"))
 #' @param direction Either "<" or ">", indicating which level is the positive case
 #' @param test Which test should be used to compare ROCs (optional). Default is delong
 #' @param ... Additional arguments
 #'
-#' @return An object of class 'bouldr' containing ROCs and tests.
+#' @return An object of class `bouldr`' containing ROCs and tests.
 #' @export
 #' @examples
-#' dd <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
+#' testing <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
 #'         Measure = c("A","B"), Informant = c("Self","Parent", "Teacher"))
-#' single <- bouldr(dat = dd,
-#' f = Outcome ~ Score,
+#' single <- bouldr(data = testing,
+#' formula = Outcome ~ Score,
 #' test = 'delong',
 #' levels = c('no','yes'),
 #' direction = "<")

@@ -2,15 +2,15 @@
 % Please edit documentation in R/summary.bouldr.R
 \name{summary.bouldr}
 \alias{summary.bouldr}
-\title{Summarises the bouldr output (by passing to print)}
+\title{Summarises the \code{bouldr} output (by passing to print)}
 \usage{
 \method{summary}{bouldr}(object, ...)
 }
 \arguments{
-\item{object}{A bouldr object}
+\item{object}{A \code{bouldr} object}
 
 \item{...}{additional arguments}
 }
 \description{
-Summarises the bouldr output (by passing to print)
+Summarises the \code{bouldr} output (by passing to print)
 }

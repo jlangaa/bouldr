@@ -1,7 +1,7 @@
 
-#' Summarises the bouldr output (by passing to print)
+#' Summarises the `bouldr` output (by passing to print)
 #'
-#' @param object A bouldr object
+#' @param object A `bouldr` object
 #' @param ... additional arguments
 #' @return NULL
 #' @export
