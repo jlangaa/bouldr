@@ -11,17 +11,17 @@
 #' @export
 print.bouldr <- function(x, tests = FALSE, ...) {
   lhs <- x$formula[[2]]
-  rhs <- x$formula[[3]]
+  rhs <- labels(terms(x$formula))
 
   cat("Outcome var:\t", lhs, "\n")
-  cat("Predictor var:\t", rhs[[2]][[2]], "\n")
+  cat("Predictor var:\t",rhs[1], "\n")
+
 
   if (length(rhs) > 1){
-    cat("Grouping var:\t", rhs[[2]][[3]], "\n")
-
+    cat("Grouping var:\t", rhs[2], "\n")
   }
   if (length(rhs) > 2){
-    cat("Faceting var:\t", rhs[[3]], "\n")
+    cat("Faceting var:\t", rhs[3], "\n")
 
   }
 
@@ -36,9 +36,6 @@ print.bouldr <- function(x, tests = FALSE, ...) {
 
     print(tests(x))
   }
-  cat("AUC table\n")
-
-  print(aucs(x))
 
   cat("To show tests, add 'tests = TRUE' to print command")
 
