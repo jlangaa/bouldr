@@ -28,7 +28,7 @@ dd <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
 
 ```
 
-The chunk above creates a data frame with two hypothetical diagnoses, two forms, and two informants. The `Outcome` and `Score` variables are important for running the ROC. The others are grouping variables.
+The chunk above creates a data frame with three hypothetical diagnoses (Depression, ANxiety, and ADHD), two forms (A and B), and three informants (Self, Parent, and Teacher). The `Outcome` and `Score` variables are important for running the ROC -- they specify dichotomous criterion variable ("Outcome") and the continuous predictor we're evaluating ("Score"). The others variables are for grouping the curves (see more below).
 
 ```{r}
 head(dd)
