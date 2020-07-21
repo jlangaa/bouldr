@@ -1,6 +1,5 @@
 ## bouldr README
-The `bouldr` package is a toolkit for running Receiver Operator Characteristic (ROC) Curve analyses using a simple, formula interface. It also allows for intuitive visualization and statistical comparison of the curves. The statistical core of the package is `pROC`, a package developed by Xavier Robin and colleagues (see below).
-
+The `bouldr` package is a toolkit for running Receiver Operator Characteristic (ROC) Curve analyses using a simple, formula interface. It also allows for intuitive visualization and statistical comparison of the curves. The statistical core of the package is `pROC`, a package developed by Xavier Robin and colleagues (see below). Many ROC packages focus on machine learning and classification use-cases. However, ROC is useful in psychology as well -- particularly in developing assessment instruments. A continuous score on a test can be ROC-ed against a target diagnosis to test the diagnostic efficiency of the test. ROC is the preferred approach because it assesses sensativity and specificity across the range of the scale, and can be used to identify optimal cut-scores. This package relies on pROC to perform the computation.
 
 ## Requirements
 - `R` version 3.5.0 or greater
