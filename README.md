@@ -27,4 +27,4 @@ Use `?bouldr` and `?generate_data` to see examples.
 
 ## References
 
-Xavier Robin, Natacha Turck, Alexandre Hainard, Natalia Tiberti, Frédérique Lisacek, Jean-Charles Sanchez and Markus Müller (2011). pROC: an open-source package for R and S+ to analyze and compare ROC curves. BMC Bioinformatics, 12, p. 77.  DOI:10.1186/1471-2105-12-77 <http://www.biomedcentral.com/1471-2105/12/77/>
+Xavier Robin, Natacha Turck, Alexandre Hainard, Natalia Tiberti, Frédérique Lisacek, Jean-Charles Sanchez and Markus Müller (2011). pROC: an open-source package for R and S+ to analyze and compare ROC curves. *BMC Bioinformatics*, 12, p. 77.  DOI:10.1186/1471-2105-12-77 <http://www.biomedcentral.com/1471-2105/12/77/>
