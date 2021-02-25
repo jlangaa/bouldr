@@ -7,7 +7,7 @@
 aucs(rocbag)
 }
 \arguments{
-\item{rocbag}{A bouldr-class object}
+\item{rocbag}{A \code{bouldr}-class object}
 }
 \value{
 A data frame with the AUCs

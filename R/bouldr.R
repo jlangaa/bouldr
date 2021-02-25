@@ -27,6 +27,9 @@
 
 bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
 
+  ### Cast data as data.frame
+  data <- as.data.frame(data)
+
   ### Useful definitions
   ret <- list()
   roclist <- list()
@@ -48,18 +51,24 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
     grouping.vars <- allvars[3:nvars]
   }
 
+  ### Remove rows where response var is NA
+  n.orig <- nrow(data)
+
+  data <- data[!is.na(data[,out]),]
+
+  n.no.na <- nrow(data)
+
   ### Do ROC tests
 
   if (nvars == 2) {
     ### If there are no additional grouping variables, there is only
     ### one curve. Check that it is significantly different from AUC = .5
-    if(length(unique(data[,out] == 1))) {
-      warning("Skipping ROC due to no case differentiation in response group", call. = FALSE)
-    }
-    real.roc <- pROC::roc_(data = data, response = out, predictor = pred ,
-                           levels = levels,
-                           direction = direction)
-
+    if(length(unique(data[,out])) == 1) {
+      stop("Skipping ROC due to no case differentiation in response group", call. = FALSE)
+    } else {
+      real.roc <- pROC::roc_(data = data, response = out, predictor = pred ,
+                             levels = levels,
+                             direction = direction)
 
     ## Generate a roc with random guessing for predictor (same sample size)
     # random.roc <- roc(predictor = data[,pred],
@@ -68,12 +77,12 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
     #                   levels = levels,
     #                   direction = direction)
 
-
     roclist <-  real.roc
     # testlist <- tidy(roc.test(real.roc, random.roc, method = test))
 
     # Do a Mann-Whitney U test to see if AUC > .5
     testlist <- broom::tidy(stats::wilcox.test(data[,pred] ~ data[,out], conf.int = TRUE))
+    }
   }
 
   if (nvars == 3) {
@@ -115,6 +124,7 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
 
       for (g in unique(data[,grp.var])){
         d <- dplyr::filter(data, get(grp.var) == g, get(facet.var) == fv)
+
         if(length(unique(d[,out])) == 1) {
           warning("Skipping ROC due to no case differentiation in facet: ", fv,
                   ", group: ",g, call. = FALSE)
@@ -152,6 +162,8 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
     stop("Too many grouping variables! Don't get greedy!")
   }
 
+  ret[["n.input"]] <- n.orig
+  ret[["n.used"]] <- n.no.na
   ret[["rocs"]] <- roclist
   ret[["tests"]] <- testlist
   ret[["stat"]] <- test

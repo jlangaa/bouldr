@@ -2,7 +2,7 @@
 % Please edit documentation in R/generate_data.R
 \name{generate_data}
 \alias{generate_data}
-\title{Generate a test data frame with 6 nested variables}
+\title{Title: Generate a test data frame for use with \code{bouldr}}
 \usage{
 generate_data(
   obs.per,
@@ -12,7 +12,7 @@ generate_data(
 )
 }
 \arguments{
-\item{obs.per}{Number of observations per cell}
+\item{obs.per}{Number of observations per cell. Total \emph{N} would be this number times the number of options in the other three variables.}
 
 \item{Diagnosis}{A character vector of names for this grouping variable}
 
@@ -21,19 +21,26 @@ generate_data(
 \item{Informant}{A character vector of names for this grouping variable}
 }
 \value{
-A data frame that can be used in bouldr
+A data frame that can be used in \code{bouldr}
 }
 \description{
-ID: participant ID
-Diagnosis: the type of diagnosis
-Measure: the form used to measure symptoms
-Informant: the person taking the form
-Outcome: whether the diagnosis is present
-Score: the score on the measure
+Description: Generates a data frame of the correct format to be used
+with \code{bouldr}.
+}
+\details{
+By default, the output data frame frame contains the following variables:
+\itemize{
+\item ID: participant ID
+\item Diagnosis: the type of diagnosis. One or more -- default 2: "Depression" and "Anxiety"
+\item Measure: the form used to measure symptoms. One or more -- default 5: (A through E)
+\item Informant: the person taking the form. One or more -- default 3: "Parent", "Teacher" and "Self"
+\item Outcome: whether the diagnosis is present. Must be dichotomous -- default: "yes" and "no"
+\item Score: the score on the measure. A (continuous) numeric variable.
+}
+
+Note that these variable names are arbitrary; they have been
+chosen here to reflect common use-cases.
 }
 \examples{
-generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
-Measure = c("A","B"),
-Informant = c("Self","Parent", "Teacher"))
-
+generate_data(10)
 }

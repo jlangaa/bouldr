@@ -1,6 +1,6 @@
 Package: bouldr
 Title: A Psychology-Focused Tool for ROC Analyses
-Version: 0.1
+Version: 0.1.1
 Authors@R: c(
     person(given = "Joshua",
            family = "Langfus",
@@ -13,19 +13,21 @@ Authors@R: c(
            )
 Author: Joshua Langfus [aut, cre]
 Maintainer: Joshua Langfus <me@josh-langfus.com>
-Description: Extends the pROC package to do ROC analyses and graph them.
+Description: Extends the pROC package to do multiple nested Receiver Operator
+    Characteristic (ROC) curve analyses, and graph them nicely with ggplot2.
+    Many ROC packages focus on machine learning and classification use-cases.
+    However, ROC is useful in psychology as well -- particularly in developing
+    assessment instruments. A continuous score on a test can be ROC-ed against
+    a target diagnosis to test the diagnostic efficiency of the test. ROC is
+    the preferred approach because it assesses sensativity and specificity
+    across the range of the scale, and can be used to identify optimal cut-
+    scores. This package relies on pROC to perform the computation.
 Depends: R (>= 3.5.0)
-Imports:
-  pROC,
-  tidyr,
-  dplyr,
-  magrittr,
-  RcppAlgos,
-  broom,
-  ggplot2,
-  stats
+Imports: pROC, tidyr, dplyr, magrittr, RcppAlgos, broom, ggplot2, stats
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
