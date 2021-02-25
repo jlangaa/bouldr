@@ -26,7 +26,7 @@ Depends: R (>= 3.5.0)
 Imports: pROC, tidyr, dplyr, magrittr, RcppAlgos, broom, ggplot2, stats
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
-License: GPL-3
+License: file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

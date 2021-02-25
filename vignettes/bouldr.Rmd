@@ -19,7 +19,7 @@ library(ggplot2)
 options(digits = 2)
 ```
 
-Next, we'll generage some test data. 
+Next, we'll generate some test data. 
 
 ```{r}
 dd <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),

@@ -1,4 +1,4 @@
-#' Summarises the `bouldr` output (by passing to print)
+#' Summarizes the `bouldr` output (by passing to print)
 #'
 #' @param object A `bouldr` object
 #' @param ... additional arguments
