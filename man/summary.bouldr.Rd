@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.bouldr.R
 \name{summary.bouldr}
 \alias{summary.bouldr}
-\title{Summarises the \code{bouldr} output (by passing to print)}
+\title{Summarizes the \code{bouldr} output (by passing to print)}
 \usage{
 \method{summary}{bouldr}(object, ...)
 }
@@ -12,5 +12,5 @@
 \item{...}{additional arguments}
 }
 \description{
-Summarises the \code{bouldr} output (by passing to print)
+Summarizes the \code{bouldr} output (by passing to print)
 }

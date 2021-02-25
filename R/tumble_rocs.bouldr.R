@@ -9,7 +9,7 @@ tumble_rocs <- function(rocbag) {
   rocs <- rocbag$rocs
   #Pulls out the data from the rocs
   if (rocbag$type == "single")  {
-    ret <- data.frame(
+    ret$data <- data.frame(
       sens = rocs$sensitivities,
       spec = rocs$specificities,
       Predictor = "",
