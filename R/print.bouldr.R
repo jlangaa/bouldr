@@ -10,6 +10,7 @@
 #' @return NULL
 #' @export
 print.bouldr <- function(x, tests = FALSE, ...) {
+  warning("this isn't working properly")
   lhs <- x$formula[[2]]
   rhs <- x$formula[[3]]
 
