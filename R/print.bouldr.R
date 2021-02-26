@@ -14,15 +14,18 @@ print.bouldr <- function(x, tests = FALSE, ...) {
   lhs <- x$formula[[2]]
   rhs <- x$formula[[3]]
 
-  cat("Outcome var:\t", lhs, "\n")
-  cat("Predictor var:\t", rhs[[2]][[2]], "\n")
+  cat("Outcome:\t", lhs, "\n")
 
+  if (length(rhs) == 1){
+    cat("Predictor:\t", rhs, "\n")
+  }
   if (length(rhs) > 1){
-    cat("Grouping var:\t", rhs[[2]][[3]], "\n")
+    cat("Grouping:\t", rhs[[2]][[3]], "\n")
+    cat("Predictor:\t", rhs[[2]][[2]], "\n")
 
   }
   if (length(rhs) > 2){
-    cat("Faceting var:\t", rhs[[3]], "\n")
+    cat("Faceting:\t", rhs[[3]], "\n")
 
   }
 
