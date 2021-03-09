@@ -20,7 +20,7 @@ print.bouldr <- function(x, tests = FALSE, ...) {
   cat("Predictor var:\t", rhs, "\n")
   }
 
-  if (length(rhs) == 3){
+  if (length(rhs) > 1){
     cat("Predictor var:\t", rhs[[2]], "\n")
     cat("Grouping var:\t", rhs[[3]], "\n")
   }
@@ -29,22 +29,16 @@ print.bouldr <- function(x, tests = FALSE, ...) {
     cat("Faceting var:\t", as.character(rhs), "\n")
   }
 
-  cat("\n\nAUC table\n\n")
+  cat("\n\nAUC table\nSee next page\n\n")
 
   print(aucs(x))
 
   if(!tests){
-    cat("To show tests, add 'tests = TRUE' to print command")
+    cat("\nTo show tests, add 'tests = TRUE' to print command")
   } else {
-    cat("\n\nTests\n\n")
-
+    cat("\nTests\nSee the last page\n\n")
     print(tests(x))
   }
 
-  cat("AUC table\n")
-
-  print(aucs(x))
-
-  cat("To show tests, add 'tests = TRUE' to print command")
 
 }
