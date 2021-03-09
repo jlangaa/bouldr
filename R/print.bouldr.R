@@ -20,14 +20,13 @@ print.bouldr <- function(x, tests = FALSE, ...) {
   cat("Predictor var:\t", rhs, "\n")
   }
 
-  if (length(rhs) > 1 & length(rhs) < 2){
+  if (length(rhs) == 3){
     cat("Predictor var:\t", rhs[[2]], "\n")
     cat("Grouping var:\t", rhs[[3]], "\n")
   }
 
-  if (length(rhs) > 2){
+  if (length(rhs) > 3){
     cat("Faceting var:\t", as.character(rhs), "\n")
-
   }
 
   cat("\n\nAUC table\n\n")
@@ -41,6 +40,7 @@ print.bouldr <- function(x, tests = FALSE, ...) {
 
     print(tests(x))
   }
+
   cat("AUC table\n")
 
   print(aucs(x))
