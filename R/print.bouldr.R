@@ -14,14 +14,19 @@ print.bouldr <- function(x, tests = FALSE, ...) {
   rhs <- x$formula[[3]]
 
   cat("Outcome var:\t", lhs, "\n")
-  cat("Predictor var:\t", rhs[[2]][[2]], "\n")
 
-  if (length(rhs) > 1){
-    cat("Grouping var:\t", rhs[[2]][[3]], "\n")
-
+  #To use a tab separator, use "\t", and use "\n" to create a line break.
+  if (length(rhs) == 1){
+  cat("Predictor var:\t", rhs, "\n")
   }
+
+  if (length(rhs) > 1 & length(rhs) < 2){
+    cat("Predictor var:\t", rhs[[2]], "\n")
+    cat("Grouping var:\t", rhs[[3]], "\n")
+  }
+
   if (length(rhs) > 2){
-    cat("Faceting var:\t", rhs[[3]], "\n")
+    cat("Faceting var:\t", as.character(rhs), "\n")
 
   }
 
