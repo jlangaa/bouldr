@@ -1,0 +1,129 @@
+---
+title: "Demo of `bouldr`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Demo of `bouldr`}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+git repo: https://github.com/jlangaa/bouldr.git
+
+# Setup
+
+First, we'll set the seed and some other useful options.
+
+```{r, warning=FALSE, message=FALSE}
+set.seed(2020)
+library(bouldr)
+library(ggplot2)
+options(digits = 2)
+```
+
+Next, we'll generate some test data. 
+
+```{r}
+dd <- generate_data(10,Diagnosis = c("Depression","Anxiety","ADHD"),
+                          Measure = c("A","B"),
+                          Informant = c("Self","Parent", "Teacher"))
+
+```
+
+The chunk above creates a data frame with three hypothetical diagnoses (Depression, ANxiety, and ADHD), two forms (A and B), and three informants (Self, Parent, and Teacher). The `Outcome` and `Score` variables are important for running the ROC -- they specify dichotomous criterion variable ("Outcome") and the continuous predictor we're evaluating ("Score"). The others variables are for grouping the curves (see more below).
+
+```{r}
+head(dd)
+```
+
+
+Next, we'll create three `bouldr` objects to demonstrate how the grouping variables are handled. Note that we can run these all on the same data; variables not included in the model formula are simply ingored.
+
+# Creating a single-type bouldr object
+
+```{r}
+single <- bouldr(data = dd,
+            formula = Outcome ~ Score,
+            test = 'delong',
+            levels = c('no','yes'),
+            direction = "<")
+
+aucs(single)
+```
+
+This is the simplest version. The formula `Outcome ~ Score` indicates that we want to run a single ROC analysis using `Outcome` as the dichotomous outcome variable, and `Score` as the continuous predictor. The `aucs` function generates a table showing the AUC of the curve.
+
+The other arguments, `test`, `levels`, and `direction`, specify respectively: the statistical test comparing the ROC curves, the levels of the outcome variable, and the relationship between the levels indicating which is the positive case. These latter two arguments get passed directly to `pROC::roc_`.
+
+The plot below shows the single ROC curve defined by the formula above.
+
+```{r, fig.width = 5, fig.asp = .8}
+plot(single) + labs(title = "Demo of plot function using test data")
+```
+
+The plot is defined using `ggplot2`, and can be manipulated after generation, e.g., by adding a theme.
+
+Finally, the `tests` function produces a table with the statistical tests
+
+```{r}
+tests(single)
+```
+
+# Including a grouping variable
+
+```{r}
+grouped <- bouldr(data = dd,
+            formula = Outcome ~ Score + Informant,
+            test = 'delong',
+            levels = c('no','yes'),
+            direction = "<")
+```
+
+In this example, the formule contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
+
+```{r, fig.width = 5, fig.asp = .8}
+plot(grouped) + labs(title = "Demo of plot function using test data")
+```
+
+The plot shows multiple ROC curves on the same axes.
+
+```{r}
+aucs(grouped)
+```
+
+The AUC table now includes a separate AUC for each grouping variable.
+
+```{r}
+tests(grouped)
+```
+
+The tests table shows the pairwise comparisons between ROCs for each grouping variable.
+
+# Adding a faceting variable
+
+```{r}
+faceted <- bouldr(data = dd,
+            formula = Outcome ~ Score + Informant + Diagnosis,
+            test = 'delong',
+            levels = c('no','yes'),
+            direction = "<")
+```
+
+Finally, we can add an additional **faceting** variable: `Diagnosis`. A variable specified after the grouping variable will create discrete sets of ROC curves that will be plotted separately. Only curves within the same faceting variable will be compared to one another using the specified statistical test; ROCs across facets are not compared. The plot below shows the effect of adding a faceting variable.
+
+
+```{r, fig.width = 8, fig.asp=.38}
+plot(faceted) + labs(title = "Demo of plot function using test data")
+```
+
+Note the facet labels at the top of each plot.
+
+```{r}
+aucs(faceted)
+```
+
+The AUC table now includes a `Facet` variable, in addition to the group variable seen before.
+
+```{r}
+tests(faceted)
+```
+
+The additional variable is also included in the tests output table.
