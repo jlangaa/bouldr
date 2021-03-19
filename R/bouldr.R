@@ -25,7 +25,8 @@
 #' direction = "<")
 #' aucs(single)
 
-bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
+#3/19/21 - WJ - Attempt to Fix Issue #5 re direction default - https://github.com/jlangaa/bouldr/issues/5
+bouldr <- function(formula, data, levels, direction = "auto", test = "delong", ...) {
 
   ### Cast data as data.frame
   data <- as.data.frame(data)
