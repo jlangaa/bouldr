@@ -58,6 +58,12 @@ bouldr <- function(formula, data, levels, direction, test = "delong", ...) {
 
   n.no.na <- nrow(data)
 
+ ### Warn about how many rows bouldr removes
+#  n.num.na <- n.orig - n.no.na
+#  if (n.num.na >= 0) {
+#    warnings("Warning: Removed row(s) containing missing values (data).")
+#  }
+
   ### Do ROC tests
 
   if (nvars == 2) {

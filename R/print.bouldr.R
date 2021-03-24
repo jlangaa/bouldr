@@ -14,32 +14,33 @@ print.bouldr <- function(x, tests = FALSE, ...) {
   rhs <- x$formula[[3]]
 
   cat("Outcome var:\t", lhs, "\n")
-  cat("Predictor var:\t", rhs[[2]][[2]], "\n")
 
-  if (length(rhs) > 1){
-    cat("Grouping var:\t", rhs[[2]][[3]], "\n")
-
+  #To use a tab separator, use "\t", and use "\n" to create a line break.
+  if (length(rhs) == 1){
+  cat("Predictor var:\t", rhs, "\n")
   }
-  if (length(rhs) > 2){
+
+  if (length(rhs) > 1 && length(as.character(rhs[[2]])) == 1){
+    cat("Predictor var:\t", rhs[[2]], "\n")
+    cat("Grouping var:\t", rhs[[3]], "\n")
+  }
+
+  if (length(rhs) > 1 && length(as.character(rhs[[2]])) == 3){
+    cat("Predictor var:\t", as.character(rhs[[2]])[[2]], "\n")
+    cat("Grouping var:\t", as.character(rhs[[2]])[[3]], "\n")
     cat("Faceting var:\t", rhs[[3]], "\n")
-
   }
 
-  cat("\n\nAUC table\n\n")
+  cat("\n\nAUC table\nSee next page\n\n")
 
   print(aucs(x))
 
   if(!tests){
-    cat("To show tests, add 'tests = TRUE' to print command")
+    cat("\nTo show tests, add 'tests = TRUE' to print command")
   } else {
-    cat("\n\nTests\n\n")
-
+    cat("\nTests\nSee the last page\n\n")
     print(tests(x))
   }
-  cat("AUC table\n")
 
-  print(aucs(x))
-
-  cat("To show tests, add 'tests = TRUE' to print command")
 
 }
