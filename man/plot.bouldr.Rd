@@ -4,16 +4,16 @@
 \alias{plot.bouldr}
 \title{Plot the ROC objects in a pretty way, with faceting when appropriate}
 \usage{
-\method{plot}{bouldr}(x, point_size = 0.5, line_sizeh = 1, ...)
+\method{plot}{bouldr}(x, point_size = 0.5, line_size = 1, ...)
 }
 \arguments{
 \item{x}{An object of class \code{bouldr}}
 
 \item{point_size}{Sets the size of the  points; default is .5}
 
-\item{...}{Additional arguments}
-
 \item{line_size}{Sets the size of the line; default is 1}
+
+\item{...}{Additional arguments}
 }
 \value{
 A ggplot2 object with relevant plot(s)
