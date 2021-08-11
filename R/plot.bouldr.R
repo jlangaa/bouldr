@@ -2,11 +2,13 @@
 #'
 #'
 #' @param x An object of class `bouldr`
+#' @param point_size Sets the size of the  points; default is .5
+#' @param line_size Sets the size of the line; default is 1
 #' @param ... Additional arguments
 #'
 #' @return A ggplot2 object with relevant plot(s)
 #' @export
-plot.bouldr <- function(x, ...) {
+plot.bouldr <- function(x, point_size = .5, line_size = 1, ...) {
   # Plots the rocs, give output from main
   if (class(x) != 'bouldr') {
     stop("input must be of type 'bouldr'")
@@ -16,8 +18,8 @@ plot.bouldr <- function(x, ...) {
   roc.data$FPR <- with(roc.data, 1 - sens)
 
   p <- ggplot2::ggplot(roc.data, ggplot2::aes_string(x = "FPR", y = "spec", color = "Group"))+
-    ggplot2::geom_point(size = .5)+
-    ggplot2::geom_line()+
+    ggplot2::geom_point(size = point_size)+
+    ggplot2::geom_line(size = line_size)+
     ggplot2::geom_abline(slope = 1, intercept = 0, color = 'grey40')+
     ggplot2::labs(x = "1 - Sensitivity", y = "Specificity") +
     ggplot2::theme_classic()

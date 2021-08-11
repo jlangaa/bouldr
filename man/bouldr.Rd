@@ -4,7 +4,7 @@
 \alias{bouldr}
 \title{Run ROCs and pairwise comparisons using desired test}
 \usage{
-bouldr(formula, data, levels, direction, test = "delong", ...)
+bouldr(formula, data, levels, direction = "auto", test = "delong", ...)
 }
 \arguments{
 \item{formula}{A specification of the variables of form: response ~ predictor + (group1) + (group2)}
