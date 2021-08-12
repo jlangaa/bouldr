@@ -1,6 +1,6 @@
 Package: bouldr
 Title: A Psychology-Focused Tool for ROC Analyses
-Version: 0.1.1
+Version: 0.1.2
 Authors@R: c(
     person(given = "Joshua",
            family = "Langfus",
