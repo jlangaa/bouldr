@@ -55,7 +55,7 @@ The other arguments, `test`, `levels`, and `direction`, specify respectively: th
 
 The plot below shows the single ROC curve defined by the formula above.
 
-```{r, fig.width = 5, fig.asp = .8}
+```{r}
 plot(single) + labs(title = "Demo of plot function using test data")
 ```
 
@@ -79,7 +79,7 @@ grouped <- bouldr(data = dd,
 
 In this example, the formule contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
 
-```{r, fig.width = 5, fig.asp = .8}
+```{r}
 plot(grouped) + labs(title = "Demo of plot function using test data")
 ```
 
@@ -110,7 +110,7 @@ faceted <- bouldr(data = dd,
 Finally, we can add an additional **faceting** variable: `Diagnosis`. A variable specified after the grouping variable will create discrete sets of ROC curves that will be plotted separately. Only curves within the same faceting variable will be compared to one another using the specified statistical test; ROCs across facets are not compared. The plot below shows the effect of adding a faceting variable.
 
 
-```{r, fig.width = 8, fig.asp=.38}
+```{r}
 plot(faceted) + labs(title = "Demo of plot function using test data")
 ```
 

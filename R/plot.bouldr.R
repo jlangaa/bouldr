@@ -2,13 +2,15 @@
 #'
 #'
 #' @param x An object of class `bouldr`
-#' @param point_size Sets the size of the  points; default is .5
+#' @param point_size Sets the size of the  points; default is 0 (no points)
 #' @param line_size Sets the size of the line; default is 1
+#' @param bw logical; print the plot in black and white with shapes & linetypes?
+#' @param shapes logical; print shapes and linetypes (on color plots)
 #' @param ... Additional arguments
 #'
 #' @return A ggplot2 object with relevant plot(s)
 #' @export
-plot.bouldr <- function(x, point_size = .5, line_size = 1, ...) {
+plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ...) {
   # Plots the rocs, give output from main
   if (class(x) != 'bouldr') {
     stop("input must be of type 'bouldr'")
@@ -17,7 +19,20 @@ plot.bouldr <- function(x, point_size = .5, line_size = 1, ...) {
 
   roc.data$FPR <- with(roc.data, 1 - sens)
 
-  p <- ggplot2::ggplot(roc.data, ggplot2::aes_string(x = "FPR", y = "spec", color = "Group"))+
+  if (bw) {
+    mapping <- ggplot2::aes_string(x = "FPR", y = "spec", shape = "Group", linetype = "Group")
+  }
+  if (!bw && shapes) {
+    mapping <- ggplot2::aes_string(x = "FPR", y = "spec", color = "Group", shape = "Group", linetype = "Group")
+  }
+  if (!bw && !shapes) {
+    mapping <- ggplot2::aes_string(x = "FPR", y = "spec", color = "Group")
+  }
+  if (bw && !shapes) {
+    warning("how are you going to tell the lines apart??")
+  }
+
+  p <- ggplot2::ggplot(roc.data, mapping)+
     ggplot2::geom_point(size = point_size)+
     ggplot2::geom_line(size = line_size)+
     ggplot2::geom_abline(slope = 1, intercept = 0, color = 'grey40')+

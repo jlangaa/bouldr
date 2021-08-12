@@ -4,14 +4,18 @@
 \alias{plot.bouldr}
 \title{Plot the ROC objects in a pretty way, with faceting when appropriate}
 \usage{
-\method{plot}{bouldr}(x, point_size = 0.5, line_size = 1, ...)
+\method{plot}{bouldr}(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ...)
 }
 \arguments{
 \item{x}{An object of class \code{bouldr}}
 
-\item{point_size}{Sets the size of the  points; default is .5}
+\item{point_size}{Sets the size of the  points; default is 0 (no points)}
 
 \item{line_size}{Sets the size of the line; default is 1}
+
+\item{bw}{logical; print the plot in black and white with shapes & linetypes?}
+
+\item{shapes}{logical; print shapes and linetypes (on color plots)}
 
 \item{...}{Additional arguments}
 }
