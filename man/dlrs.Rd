@@ -4,18 +4,16 @@
 \alias{dlrs}
 \title{A Diagnostic Likelihood Ratio (DiLR) calculator}
 \usage{
-dlrs(cut, scores, outcomes, positive, data, ...)
+dlrs(x, scores, outcomes, positive, ...)
 }
 \arguments{
-\item{cut}{(numeric) the cut score at which to compute the DiLR}
+\item{x}{a data frame containing the relevant variables}
 
 \item{scores}{(character) the name of the continuous variable}
 
 \item{outcomes}{(character) the name of the classification variable}
 
 \item{positive}{(string or numeric) the positive case in \code{outcomes}}
-
-\item{data}{a data frame containing the relevant variables}
 
 \item{...}{Additional arguments (not implemented yet)}
 }
