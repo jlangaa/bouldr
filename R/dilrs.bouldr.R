@@ -4,60 +4,81 @@
 #' of the continuous variable. Also outputs additional
 #' classification statistics (true/false positives/negatives).
 #'
-#' @param cut (numeric) the cut score at which to compute the DiLR
+#' @param x a data frame containing the relevant variables
 #' @param scores (character) the name of the continuous variable
 #' @param outcomes (character) the name of the classification variable
 #' @param positive (string or numeric) the positive case in `outcomes`
-#' @param data a data frame containing the relevant variables
 #' @param ... Additional arguments (not implemented yet)
 #'
 #' @return a numeric vector containing the classification statistics
 #' @export
-dlrs <- function(cut, scores, outcomes, positive, data, ...) {
+dlrs <- function(x, scores, outcomes, positive, ...) {
   # Computes Diagnostic Likelihood ratios (and a bunch of other stuff)
   #
   # cut := the cut score (numeric)
+  # n.cuts := the number of quantiles desired
   # scores := the name of the column containing the scores
   # outcomes := the name of the column containing the binary outcomes
   # positive := the outcome value of the positive case (pay attention to type!)
-  # data := the data frame containing at least 2 columns: one containing
+  # x := the x frame containing at least 2 columns: one containing
   # continuous scores `scores` and another containing binary outcomes `outcomes`
   #
-  # returns a vector of data
+  # returns a tibble with one row
 
   dots <- list(...)
+  ## make sure x is data.table object
+  x <- as_tibble(x)
+  if (!is.null(dots$cut)) {
+    ## DiLR formula:
+    ## LR+ = P(Score > Cut | Yes Dx) / P(Score > Cut | No Dx)
+    ## Alternatively:
+    ## LR+ = sensitivity / (1 - specificity)
 
-  ## make sure data is data.table object
-  if (!("data.table" %in% class(data)))
-    data <- data.table::as.data.table(data)
+    cut <- dots$cut
 
-  ## DiLR formula:
-  ## LR+ = P(Score > Cut | Yes Dx) / P(Score > Cut | No Dx)
-  ## Alternatively:
-  ## LR+ = sensitivity / (1 - specificity)
+    ret <- x %>%
+      summarise(
+        cut = cut,
+        true_pos = sum(get(scores) >= cut &
+                         get(outcomes) == positive),
+        false_pos = sum(get(scores) >= cut &
+                          get(outcomes) != positive),
+        true_neg = sum(get(scores) < cut &
+                         get(outcomes) != positive),
+        false_neg = sum(get(scores) < cut &
+                          get(outcomes) == positive),
+        sensitivity = true_pos / (true_pos + false_neg),
+        specificity = true_neg / (false_pos + true_neg),
+        LR_pos = (true_pos / (true_pos + false_neg)) / (false_pos / (false_pos + true_neg)),
+        LR_neg = (false_neg / (true_pos + false_neg)) / (true_neg / (false_pos + true_neg))
+      )
 
 
-  ## Calculate relevant statistics using syntax from data.table package
-  ## note `.N` gives the number of rows defined by the logical statement
-  true_pos  = data[get(scores) >= cut & get(outcomes) == positive, data.table::.N]
-  false_pos = data[get(scores) >= cut & get(outcomes) != positive, data.table::.N]
-  false_neg = data[get(scores) < cut & get(outcomes) == positive, data.table::.N]
-  true_neg  = data[get(scores) < cut & get(outcomes) != positive, data.table::.N]
+    ## return as a tibble
+    return(ret)
+  }
+  else if (!is.null(dots$n.cuts)) {
+    n <- dots$n.cuts
 
-  ## save this in a list
-  ret <- list(
-    cut = cut,
-    true_pos  = true_pos,
-    false_pos = false_pos,
-    false_neg = false_neg,
-    true_neg  = true_neg,
-    LRPos = (true_pos / (true_pos + false_neg)) / (false_pos / (false_pos + true_neg)),
-    LRNeg = (true_neg / (true_pos + false_neg)) / (false_neg / (false_pos + true_neg))
-  )
+    tot.pos <- sum(x[[outcomes]] == positive)
+    tot.neg <- sum(x[[outcomes]] != positive)
 
-  ## return as a vector
-  return(unlist(ret))
-  ## it seems strange to list() then unlist(), but this creates a convenient
-  ## and extendable output format.
+    quantiles <- quantile(x[[scores]], seq(0, 1, 1 / n))
+
+    ret <- x %>%
+      mutate(score.band = cut(get(scores), breaks = quantiles, ordered_result = TRUE)) %>%
+      group_by(score.band) %>%
+      summarize(
+        positive.cases = sum(get(outcomes) == positive),
+        negative.cases = n() - positive.cases,
+        percent.positive = positive.cases / tot.pos,
+        percent.negative = negative.cases / tot.neg,
+        LR = percent.positive / percent.negative,
+        total.positive = tot.pos,
+        total.negative = tot.neg
+      )
+    return(ret)
+  } else {
+    stop("You must supply either 'cut' or 'n.cuts' argument")
+  }
 }
-

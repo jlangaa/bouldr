@@ -23,7 +23,7 @@ Description: Extends the pROC package to do multiple nested Receiver Operator
     across the range of the scale, and can be used to identify optimal cut-
     scores. This package relies on pROC to perform the computation.
 Depends: R (>= 3.5.0)
-Imports: pROC, tidyr, dplyr, magrittr, RcppAlgos, broom, ggplot2, stats, data.table, purrr
+Imports: pROC, tidyr, dplyr, magrittr, RcppAlgos, broom, ggplot2, stats
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 License: file LICENSE
