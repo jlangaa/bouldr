@@ -8,7 +8,7 @@
 #' @param scores (character) the name of the continuous variable
 #' @param outcomes (character) the name of the classification variable
 #' @param positive (string or numeric) the positive case in `outcomes`
-#' @param ... Additional arguments (not implemented yet)
+#' @param ... Additional arguments including `n.cuts` or `cut` (one of these is required). Supplying `cut` computes dlrs for a specific cut score. Supplying `n.cuts` computes it for a range of cut scores based on quantiles of the score variable.
 #'
 #' @return a numeric vector containing the classification statistics
 #' @export
