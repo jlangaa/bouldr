@@ -10,7 +10,7 @@
 #'
 #' @return A ggplot2 object with relevant plot(s)
 #' @export
-plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ...) {
+plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ncol = NULL, nrow = NULL, ...) {
   # Plots the rocs, give output from main
   if (class(x) != 'bouldr') {
     stop("input must be of type 'bouldr'")
@@ -40,7 +40,7 @@ plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = T
     ggplot2::theme_classic()
 
   if (x$type == "faceted") {
-    p <- p + ggplot2::facet_wrap(~Facet)
+    p <- p + ggplot2::facet_wrap(~Facet, nrow = nrow, ncol = ncol)
   }
 
   return(p)
