@@ -10,12 +10,21 @@
 #'
 #' @return A ggplot2 object with relevant plot(s)
 #' @export
-plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ncol = NULL, nrow = NULL, ...) {
+plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ncol = NULL, nrow = NULL, facet_order = NULL, ...) {
   # Plots the rocs, give output from main
+  #facet_order should be a named
+
   if (class(x) != 'bouldr') {
     stop("input must be of type 'bouldr'")
   }
   roc.data <- tumble_rocs(x)
+
+  if (!is.null(facet_order)) {
+    if(!all(unique(facet_order) %in% roc.data$Facet)) {
+      stop("not all values in facet_order represented in data")
+    }
+    roc.data$Facet <- factor(roc.data$Facet, levels=facet_order)
+  }
 
   roc.data$FPR <- with(roc.data, 1 - sens)
 
