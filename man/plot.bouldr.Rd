@@ -4,7 +4,17 @@
 \alias{plot.bouldr}
 \title{Plot the ROC objects in a pretty way, with faceting when appropriate}
 \usage{
-\method{plot}{bouldr}(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ...)
+\method{plot}{bouldr}(
+  x,
+  point_size = 0,
+  line_size = 1,
+  bw = FALSE,
+  shapes = TRUE,
+  ncol = NULL,
+  nrow = NULL,
+  facet_order = NULL,
+  ...
+)
 }
 \arguments{
 \item{x}{An object of class \code{bouldr}}
@@ -16,6 +26,12 @@
 \item{bw}{logical; print the plot in black and white with shapes & linetypes?}
 
 \item{shapes}{logical; print shapes and linetypes (on color plots)}
+
+\item{ncol}{numeric; for faceted plots, specifies number of columns}
+
+\item{nrow}{numeric; for faceted plots, specifies number of rows}
+
+\item{facet_order}{string; for faceted plots, specifies the order of the facets}
 
 \item{...}{Additional arguments}
 }

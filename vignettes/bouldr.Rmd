@@ -111,7 +111,7 @@ Finally, we can add an additional **faceting** variable: `Diagnosis`. A variable
 
 
 ```{r}
-plot(faceted) + labs(title = "Demo of plot function using test data")
+plot(faceted, ncol = 1, facet_order = c("ADHD","Anxiety","Depression")) + labs(title = "Demo of plot function using test data")
 ```
 
 Note the facet labels at the top of each plot.
