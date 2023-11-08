@@ -15,7 +15,7 @@ dlrs(x, scores, outcomes, positive, ...)
 
 \item{positive}{(string or numeric) the positive case in \code{outcomes}}
 
-\item{...}{Additional arguments (not implemented yet)}
+\item{...}{Additional arguments including \code{n.cuts} or \code{cut} (one of these is required). Supplying \code{cut} computes dlrs for a specific cut score. Supplying \code{n.cuts} computes it for a range of cut scores based on quantiles of the score variable.}
 }
 \value{
 a numeric vector containing the classification statistics
