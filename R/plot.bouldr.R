@@ -12,7 +12,7 @@
 #' @export
 plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ...) {
   # Plots the rocs, give output from main
-  if (class(x) != 'bouldr') {
+  if (!inherits(x,'bouldr')) {
     stop("input must be of type 'bouldr'")
   }
   roc.data <- tumble_rocs(x)

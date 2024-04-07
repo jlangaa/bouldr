@@ -58,6 +58,7 @@ The plot below shows the single ROC curve defined by the formula above.
 
 ```{r}
 plot(single) + labs(title = "Demo of plot function using test data")
+
 ```
 
 The plot is defined using `ggplot2`, and can be manipulated after generation, e.g., by adding a theme.
@@ -139,7 +140,7 @@ First, compute diagnostic statistics for a range of cutpoints based on equally-s
 d.dlrs <- dd %>%
   dplyr::filter(Diagnosis == "Depression" & Measure == "A" & Informant == "Self")
 
-dlrs(x = d.dlrs , outcomes = "Outcome",scores = "Score",positive = "yes", n.cuts = 3)
+dlrs(x = d.dlrs , outcomes = "Outcome",scores = "Score",positive = "yes", n.cuts = 2)
 ```
 
 Now compute diatgnostic statistics for a specified cutpoint
