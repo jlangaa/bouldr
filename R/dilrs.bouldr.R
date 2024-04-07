@@ -63,10 +63,11 @@ dlrs <- function(x, scores, outcomes, positive, ...) {
     tot.pos <- sum(x[[outcomes]] == positive)
     tot.neg <- sum(x[[outcomes]] != positive)
 
+    ## Compute quantiles
     quantiles <- stats::quantile(x[[scores]], seq(0, 1, 1 / n))
 
     ret <- x %>%
-      dplyr::mutate(score.band = cut(get(scores), breaks = quantiles, ordered_result = TRUE)) %>%
+      dplyr::mutate(score.band = cut(get(scores), breaks = quantiles,include.lowest = TRUE, right=TRUE, ordered_result = TRUE)) %>%
       dplyr::group_by(.data$score.band) %>%
       dplyr::summarize(
         positive.cases = sum(.data[[outcomes]] == positive),
@@ -77,6 +78,9 @@ dlrs <- function(x, scores, outcomes, positive, ...) {
         total.positive = tot.pos,
         total.negative = tot.neg
       )
+    if(any(is.infinite(ret$LR))) {
+      warning("Likelihood ratio is Inf for at least score band. This can happen if there are no negative cases (e.g., in the highest band). Consider reducing n.cuts")
+    }
     return(ret)
   } else {
     stop("You must supply either 'cut' or 'n.cuts' argument")

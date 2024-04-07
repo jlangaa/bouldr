@@ -15,6 +15,7 @@ First, we'll set the seed and some other useful options.
 ```{r, warning=FALSE, message=FALSE}
 set.seed(2020)
 library(bouldr)
+library(dplyr)
 library(ggplot2)
 options(digits = 2)
 ```
@@ -127,3 +128,23 @@ tests(faceted)
 ```
 
 The additional variable is also included in the tests output table.
+
+# Diagnostic Likelihood ratio
+
+Only works for a single outcome / scale at a time.
+
+First, compute diagnostic statistics for a range of cutpoints based on equally-spaced quantiles of the outcome variable. Specify the number of quantiles with `n.cuts` argument.
+
+```{r}
+d.dlrs <- dd %>%
+  dplyr::filter(Diagnosis == "Depression" & Measure == "A" & Informant == "Self")
+
+dlrs(x = d.dlrs , outcomes = "Outcome",scores = "Score",positive = "yes", n.cuts = 3)
+```
+
+Now compute diatgnostic statistics for a specified cutpoint
+
+```{r}
+dlrs(x = d.dlrs, outcomes = "Outcome", scores= "Score", positive = "yes", cut = 3)
+```
+
