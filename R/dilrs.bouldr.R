@@ -8,7 +8,7 @@
 #' @param scores (character) the name of the continuous variable
 #' @param outcomes (character) the name of the classification variable
 #' @param positive (string or numeric) the positive case in `outcomes`
-#' @param ... Additional arguments (not implemented yet)
+#' @param ... Additional arguments including `n.cuts` or `cut` (one of these is required). Supplying `cut` computes dlrs for a specific cut score. Supplying `n.cuts` computes it for a range of cut scores based on quantiles of the score variable.
 #'
 #' @return a numeric vector containing the classification statistics
 #' @export
@@ -68,6 +68,7 @@ dlrs <- function(x, scores, outcomes, positive, ...) {
 
     ret <- x %>%
       dplyr::mutate(score.band = cut(get(scores), breaks = quantiles,include.lowest = TRUE, right=TRUE, ordered_result = TRUE)) %>%
+
       dplyr::group_by(.data$score.band) %>%
       dplyr::summarize(
         positive.cases = sum(.data[[outcomes]] == positive),
@@ -78,9 +79,11 @@ dlrs <- function(x, scores, outcomes, positive, ...) {
         total.positive = tot.pos,
         total.negative = tot.neg
       )
+
     if(any(is.infinite(ret$LR))) {
       warning("Likelihood ratio is Inf for at least score band. This can happen if there are no negative cases (e.g., in the highest band). Consider reducing n.cuts")
     }
+
     return(ret)
   } else {
     stop("You must supply either 'cut' or 'n.cuts' argument")
