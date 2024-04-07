@@ -15,7 +15,6 @@
 #' @export
 plot.bouldr <- function(x, point_size = 0, line_size = 1, bw = FALSE, shapes = TRUE, ncol = NULL, nrow = NULL, facet_order = NULL, ...) {
   # Plots the rocs, give output from main
-  #facet_order should be a named
 
   if (!inherits(x, 'bouldr')) {
     stop("input must be of type 'bouldr'")
