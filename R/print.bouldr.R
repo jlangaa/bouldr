@@ -10,38 +10,35 @@
 #' @return NULL
 #' @export
 print.bouldr <- function(x, tests = FALSE, ...) {
-  warning("this isn't working properly")
+  # warning("this isn't working properly")
   lhs <- x$formula[[2]]
   rhs <- x$formula[[3]]
 
   cat("Outcome:\t", lhs, "\n")
 
-  if (length(rhs) == 1){
+  if (x$type == "single") {
     cat("Predictor:\t", rhs, "\n")
   }
-  if (length(rhs) > 1){
-    cat("Grouping:\t", rhs[[2]][[3]], "\n")
+
+  if (x$type == "grouped") {
+    cat("Predictor:\t", rhs[[2]], "\n")
+    cat("Grouping:\t", rhs[[3]], "\n")
+  }
+
+  if (x$type == "faceted") {
     cat("Predictor:\t", rhs[[2]][[2]], "\n")
-
-  }
-  if (length(rhs) > 2){
+    cat("Grouping:\t", rhs[[2]][[3]], "\n")
     cat("Faceting:\t", rhs[[3]], "\n")
-
   }
 
-  cat("\n\nAUC table\n\n")
+  cat("\nAUC table\n")
+  aucs(x) |> print()
 
-  if(!tests){
-    cat("To show tests, add 'tests = TRUE' to print command")
+  if (!tests) {
+    cat("\nTo show tests, add 'tests = TRUE' to print command")
   } else {
-    cat("\n\nTests\n\n")
-
-    print(tests(x))
+    cat("Tests\n")
+    tests(x)
   }
-  cat("AUC table\n")
 
-  print(aucs(x))
-
-  cat("To show tests, add 'tests = TRUE' to print command")
-
-}
+  }
