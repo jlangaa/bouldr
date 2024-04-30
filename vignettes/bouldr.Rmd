@@ -130,6 +130,8 @@ tests(faceted)
 
 The additional variable is also included in the tests output table.
 
+The tests function prints tests of each ROC curve against each other as well as each ROC curve against chance (U-Test).
+
 # Diagnostic Likelihood ratio
 
 Only works for a single outcome / scale at a time.
