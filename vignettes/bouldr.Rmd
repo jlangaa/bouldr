@@ -79,7 +79,7 @@ grouped <- bouldr(data = dd,
             direction = "<")
 ```
 
-In this example, the formule contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
+In this example, the formula contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
 
 ```{r}
 plot(grouped) + labs(title = "Demo of plot function using test data")

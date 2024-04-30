@@ -5,7 +5,18 @@
 #' @return A data frame containing the test information
 #' @export
 #'
-tests <- function(rocbag) {
+tests <- function(rocbag, compare = TRUE, versus_chance = TRUE) {
   #
-  return(rocbag$tests)
+  ret <- list()
+
+  if (compare) {
+    ret$compare <- rocbag$tests
+  }
+
+  if (versus_chance){
+
+    ret$chance <- rocbag$null_tests
+  }
+
+  print(ret)
 }
