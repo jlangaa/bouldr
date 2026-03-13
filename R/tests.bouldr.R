@@ -2,7 +2,7 @@
 #'
 #' @param rocbag A bouldr-class object
 #'
-#' @return A data frame containing the test information
+#' @return A list with two data frames containing the test information: "compare" contains comparisons between curves and "chance" shows tests against change classification.
 #' @export
 #'
 tests <- function(rocbag, compare = TRUE, versus_chance = TRUE) {
