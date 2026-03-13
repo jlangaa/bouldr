@@ -35,6 +35,7 @@ bouldr <- function(formula, data, levels, direction = "auto", test = "delong", .
   ret <- list()
   roclist <- list()
   testlist <- list()
+  nulltests <- list()
 
   ### Parse formula and extract variable names
   allvars <- all.vars(formula)
@@ -118,6 +119,9 @@ bouldr <- function(formula, data, levels, direction = "auto", test = "delong", .
 
     nc <- ncol(testlist)
     testlist <- testlist[,c(nc,nc-1,2:nc-2)]
+
+    ## U tests -- test null
+    nulltests <- lapply(roclist, \(r) { stats::wilcox.test(r$cases, r$controls, conf.int=TRUE, conf.level =0.95) |> broom::tidy() }) |> dplyr::bind_rows(.id = "Predictor")
   }
 
   if (nvars == 4) {
@@ -128,6 +132,7 @@ bouldr <- function(formula, data, levels, direction = "auto", test = "delong", .
       ## Run the ROCs
       roc.facet <- list()
       test.facet <- list()
+      nulltest.facet <- list()
 
       for (g in unique(data[,grp.var])){
         d <- dplyr::filter(data, get(grp.var) == g, get(facet.var) == fv)
@@ -148,7 +153,7 @@ bouldr <- function(formula, data, levels, direction = "auto", test = "delong", .
       ## Pairwise comparisons
       comboList <- RcppAlgos::comboGeneral(names(roc.facet), m = 2)
 
-      test.facet <- apply(comboList, 1, function(x) { pROC::roc.test(roc.facet[[x[1]]], roc.facet[[x[2]]], method = test) } )
+      test.facet <- apply(comboList,1, function(x) { pROC::roc.test(roc.facet[[x[1]]], roc.facet[[x[2]]], method = test) } )
       # names(test.facet) <- apply(comboList, 1, function(x) { paste(x[1],x[2],sep="_") })
 
       test.facet <- dplyr::bind_rows(lapply(test.facet, broom::tidy))
@@ -159,10 +164,14 @@ bouldr <- function(formula, data, levels, direction = "auto", test = "delong", .
       nc <- ncol(test.facet)
       test.facet <- test.facet[,c(nc,nc-1, nc-2, 3:nc-3)]
 
+      nulltest.facet <- lapply(roc.facet, \(r) { stats::wilcox.test(r$cases, r$controls, conf.int=TRUE, conf.level =0.95) |> broom::tidy() }) |> dplyr::bind_rows(.id = "Predictor")
+
       roclist[[fv]] <- roc.facet
       testlist[[fv]] <- test.facet
+      nulltests[[fv]] <- nulltest.facet
     }
     testlist <- dplyr::bind_rows(testlist)
+    nulltests <- dplyr::bind_rows(nulltests, .id = "Facet")
 
   }
   if (nvars > 4) {
@@ -174,6 +183,7 @@ bouldr <- function(formula, data, levels, direction = "auto", test = "delong", .
   ret[["rocs"]] <- roclist
   ret[["tests"]] <- testlist
   ret[["stat"]] <- test
+  ret[["null_tests"]] <- nulltests
   ret[["formula"]] <- formula
   ## Indicate how much nesting exists
   ret[["type"]] <- dplyr::case_when(

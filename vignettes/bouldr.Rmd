@@ -15,6 +15,7 @@ First, we'll set the seed and some other useful options.
 ```{r, warning=FALSE, message=FALSE}
 set.seed(2020)
 library(bouldr)
+library(dplyr)
 library(ggplot2)
 options(digits = 2)
 ```
@@ -57,6 +58,7 @@ The plot below shows the single ROC curve defined by the formula above.
 
 ```{r}
 plot(single) + labs(title = "Demo of plot function using test data")
+
 ```
 
 The plot is defined using `ggplot2`, and can be manipulated after generation, e.g., by adding a theme.
@@ -77,7 +79,7 @@ grouped <- bouldr(data = dd,
             direction = "<")
 ```
 
-In this example, the formule contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
+In this example, the formula contains the **grouping** variable, `Informant`, after the predictor term in the formula. A separate ROC curve will be calculated for each subset of the data specified by unique values of the grouping variable. Each curve will then be compared against each other curve using the specified statistical test.
 
 ```{r}
 plot(grouped) + labs(title = "Demo of plot function using test data")
@@ -127,3 +129,25 @@ tests(faceted)
 ```
 
 The additional variable is also included in the tests output table.
+
+The tests function prints tests of each ROC curve against each other as well as each ROC curve against chance (U-Test).
+
+# Diagnostic Likelihood ratio
+
+Only works for a single outcome / scale at a time.
+
+First, compute diagnostic statistics for a range of cutpoints based on equally-spaced quantiles of the outcome variable. Specify the number of quantiles with `n.cuts` argument.
+
+```{r}
+d.dlrs <- dd %>%
+  dplyr::filter(Diagnosis == "Depression" & Measure == "A" & Informant == "Self")
+
+dlrs(x = d.dlrs , outcomes = "Outcome",scores = "Score",positive = "yes", n.cuts = 2)
+```
+
+Now compute diatgnostic statistics for a specified cutpoint
+
+```{r}
+dlrs(x = d.dlrs, outcomes = "Outcome", scores= "Score", positive = "yes", cut = 3)
+```
+
